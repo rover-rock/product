@@ -1,0 +1,49 @@
+{php include $this->template('header')}
+{php include $this->template('progress')}
+<style type="text/css">
+	.divider1{
+		height: 3vmin;
+		background: #9e9e9e69;
+	}
+	#a{
+		padding: 2vmin 4vmin;
+	}
+	#b{
+		padding: 2vmin 4vmin;
+	}
+	#b span{
+		color: gray;
+	}
+	.mybutton{
+		display: inline; 
+	}
+	.mybutton img{
+		width: 6vmin;
+	}
+	.left{
+		    margin-left: 25vmin;
+    margin-right: 10vmin;
+	}
+	.btnpanel{
+		position: fixed;
+		bottom: 3vmin;
+
+	}
+</style>
+<div class="divider1"></div>
+<div id="a"> 订单编号：{$order['ordersn']}</div>
+<div class="divider1"></div>
+<div id="b">销售人员：<span>{$user['name']}</span></div>
+<div class="divider1"></div>
+
+{php include $this->template('orderinfo')}
+
+
+<div class="btnpanel">
+	<div class="mybutton left" onclick="window.location.href='{php echo $this->createMobileUrl("index",array("action"=>"verifyorder","op"=>"refuse","id"=>$id))}'">
+		<img src="../addons/ly_product_manage/template/mobile/image/back_btn.png">拒绝</div>
+	<div class="mybutton" onclick="window.location.href='{php echo $this->createMobileUrl("index",array("action"=>"verifyorder","op"=>"pass","id"=>$id))}'">
+		<img src="../addons/ly_product_manage/template/mobile/image/alert_btn.png">批准</div>
+</div>
+
+{php include $this->template('footer')}

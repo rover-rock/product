@@ -1,0 +1,233 @@
+{php include $this->template('header')}
+{php include $this->template('personinfo')}
+<style type="text/css">
+.nav-tab1{
+	display: grid;
+	grid-template-columns: repeat(2,1fr);
+	text-align: center;
+	font-size: 1.3em;
+	padding: 3vmin;
+
+}
+
+.nav-tab1 div:nth-child(2){
+	border-right: none;
+
+}
+.mybutton{
+	display: inline; 
+}
+.mybutton img{
+	width: 6vmin;
+	margin-top: -1vmin;
+	margin-right: 1vmin;
+}
+.left{
+	margin-left: 17vmin;
+	margin-right: 10vmin;
+}
+.btnpanel{
+	position: fixed;
+	bottom: 3vmin;
+
+}
+
+</style>
+
+<div class="nav-tab">
+	<div data-flag=1 class="active">新增订单</div>
+	<div data-flag=2>新增审批</div>
+	<div data-flag=3>订单中心</div>
+</div>
+<div class="tab-content">
+	<div id="tab1" >
+		<div class="nav-tab nav-tab1">
+			<div data-flag=1 class="active">未分配</div>
+			<div data-flag=2>已分配</div>
+		</div>
+		<div class="tab-content">
+			<div>
+				{loop $order['new_assigning'] $list $item}
+				<div class="list-item">
+					<div>
+						<div >
+							<span class="item1">订单编号：</span>
+							<span class="item2">{$item['ordersn']}</span>
+							<span class="label label-default">未分配</span>
+						</div>
+						<div>
+							<span class="item3">购买人：</span>
+							<span class="item4">{$item['clientid']}</span>
+							<span class="item3">下单时间：</span>
+							<span class="item4">{php echo date("Y-m-d",$item['create_time'])}</span>
+						</div>
+					</div>
+					<div>
+						<img src="../addons/ly_product_manage/template/mobile/image/more_btn.png" style="width: 100%;height: 80%;" onclick="window.location.href='{php echo $this->createMobileUrl('index',array('action'=>'assignorder','id'=>$item['id']))}'">
+					</div>
+				</div>
+				{/loop}
+			</div>
+			<div>
+				{loop $order['new_assigned'] $list $item}
+				<div class="list-item">
+					<div>
+						<div >
+							<span class="item1">订单编号：</span>
+							<span class="item2">{$item['ordersn']}</span>
+							<span class="label label-default">已分配</span>
+						</div>
+						<div>
+							<span class="item3">购买人：</span>
+							<span class="item4">{$item['clientid']}</span>
+							<span class="item3">下单时间：</span>
+							<span class="item4">{php echo date("Y-m-d",$item['create_time'])}</span>
+						</div>
+					</div>
+					<div>
+						<img src="../addons/ly_product_manage/template/mobile/image/more_btn.png" style="width: 100%;height: 80%;" onclick="window.location.href='{php echo $this->createMobileUrl('index',array('action'=>'assignorder','id'=>$item['id']))}'">
+					</div>
+				</div>
+				{/loop}
+			</div>  
+		</div>
+		
+	</div>
+	<div id="tab2" >
+		<div class="nav-tab nav-tab1">
+			<div data-flag=1 class="active">未审批</div>
+			<div data-flag=2>已审批</div>
+		</div>
+		<div class="tab-content">
+			<div>
+				{loop $order['new_verifing'] $list $item}
+				<div class="list-item">
+					<div>
+						<div >
+							<span class="item1">订单编号：</span>
+							<span class="item2">{$item['ordersn']}</span>
+							<span class="label label-default">未审批</span>
+						</div>
+						<div>
+							<span class="item3">购买人：</span>
+							<span class="item4">{$item['clientid']}</span>
+							<span class="item3">下单时间：</span>
+							<span class="item4">{php echo date("Y-m-d",$item['create_time'])}</span>
+						</div>
+					</div>
+					<div>
+						<img src="../addons/ly_product_manage/template/mobile/image/more_btn.png" style="width: 100%;height: 80%;" onclick="window.location.href='{php echo $this->createMobileUrl('index',array('action'=>'verifyorder','id'=>$item['id']))}'">
+					</div>
+				</div>
+				{/loop}
+			</div>
+			<div>
+				{loop $order['new_verified'] $list $item}
+				<div class="list-item">
+					<div>
+						<div >
+							<span class="item1">订单编号：</span>
+							<span class="item2">{$item['ordersn']}</span>
+							<span class="label label-default">已审批</span>
+						</div>
+						<div>
+							<span class="item3">购买人：</span>
+							<span class="item4">{$item['clientid']}</span>
+							<span class="item3">下单时间：</span>
+							<span class="item4">{php echo date("Y-m-d",$item['create_time'])}</span>
+						</div>
+					</div>
+					<div>
+						<img src="../addons/ly_product_manage/template/mobile/image/more_btn.png" style="width: 100%;height: 80%;" onclick="window.location.href='{php echo $this->createMobileUrl('index',array('action'=>'detail','id'=>$item['id']))}'">
+					</div>
+				</div>
+				{/loop}
+			</div>  
+		</div>
+		
+	</div>
+	<div id="tab3">
+		<div class="nav-tab nav-tab1">
+			<div data-flag=1 class="active">员工订单</div>
+			<div data-flag=2>个人订单</div>
+		</div>
+		<div class="tab-content">
+			<div>
+				{loop $order['assigntype'] $list $item}
+				<div class="list-item">
+					<div>
+						<div >
+							<span class="item1">订单编号：</span>
+							<span class="item2">{$item['ordersn']}</span>
+							<span class="label label-default">未审批</span>
+						</div>
+						<div>
+							<span class="item3">购买人：</span>
+							<span class="item4">{$item['clientid']}</span>
+							<span class="item3">下单时间：</span>
+							<span class="item4">{php echo date("Y-m-d",$item['create_time'])}</span>
+						</div>
+					</div>
+					<div>
+						<img src="../addons/ly_product_manage/template/mobile/image/more_btn.png" style="width: 100%;height: 80%;" onclick="window.location.href='{php echo $this->createMobileUrl('index',array('action'=>'detail','id'=>$item['id']))}'">
+					</div>
+				</div>
+				{/loop}
+			</div>
+			<div>
+				{loop $order['personaltype'] $list $item}
+				<div class="list-item">
+					<div>
+						<div >
+							<span class="item1">订单编号：</span>
+							<span class="item2">{$item['ordersn']}</span>
+							<span class="label label-default">已审批</span>
+						</div>
+						<div>
+							<span class="item3">购买人：</span>
+							<span class="item4">{$item['clientid']}</span>
+							<span class="item3">下单时间：</span>
+							<span class="item4">{php echo date("Y-m-d",$item['create_time'])}</span>
+						</div>
+					</div>
+					<div>
+						<img src="../addons/ly_product_manage/template/mobile/image/more_btn.png" style="width: 100%;height: 80%;" onclick="window.location.href='{php echo $this->createMobileUrl('index',array('action'=>'detail','id'=>$item['id']))}'">
+					</div>
+				</div>
+				{/loop}
+			</div>  
+		</div>
+	</div>
+</div>
+<div class="btnpanel">
+	<div class="mybutton left" onclick="window.location.href='{php echo $this->createMobileUrl("index",array("action"=>"neworder","type"=>"3"))}'">
+		<img src="../addons/ly_product_manage/template/mobile/image/new_btn.png">新增个人订单</div>
+		<div class="mybutton" onclick="window.location.href='{php echo $this->createMobileUrl("index",array("action"=>"neworder","type"=>"1"))}'">
+			<img src="../addons/ly_product_manage/template/mobile/image/new_btn.png">新增意向订单</div>
+		</div>
+		<script type="text/javascript">
+
+
+			$(function () {
+				$('.tab-content').children().hide();
+				console.log($('.tab-content').children())
+				$('.tab-content').each(function () {
+					$(this).children().eq(0).show();
+				}
+				)
+
+				$('.nav-tab').children().on('click',function () {
+					$(this).parent().children().removeClass('active');
+					$(this).addClass('active');
+					var index=$(this).data('flag')-1;
+					console.log(index);
+					var showTab=$(this).parent().siblings('.tab-content').children().eq(index);
+					activate(showTab);			
+				})
+			})
+			function activate(el) {
+				el.parent().children().hide();
+				el.show();
+			}
+		</script>
+		{php include $this->template('footer')}

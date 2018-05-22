@@ -1,0 +1,73 @@
+
+{php include $this->template('header')}
+<style type="text/css">
+.a{
+	width: 90vw;
+	height: auto;
+	background-color: white;
+	margin-top: 2vw;
+	padding: 0vw 5vw;
+}
+.a p{
+	color: #cccccc;
+}
+.a span{
+	color: black;
+}
+.a img{
+	width: 6vmin;
+	margin-left: 42vmin;
+}
+.b{
+	padding: 5vmin;
+}
+.b div{
+	margin: 2vmin;
+}
+.divider1{
+	height: 2vmin;
+	background: #cccccc;
+}
+</style>
+
+<div class="a">
+	<p>订单编号：<span>{$order['ordersn']}</span></p>
+</div>
+<div class="divider1"></div>
+<div class="a">
+	<p>销售人员：<span>{if $order['detailstatus']==2} {$assignedman} {else} 未分配 {/if} </span>
+	<img src="../addons/ly_product_manage/template/mobile/image/new_btn.png" onclick="pop(this)"></p>
+</div>
+<div class="divider1"></div>
+<div class="b">
+	<div>意向购买人：{$client['name']}</div>
+	<div>联系方式：{$client['phone']}</div>
+	<div>收货地址：{$client['addr']}</div>
+</div>
+<form method="post">
+	<input type="hidden" name="salesman">
+	<input type="hidden" name="id" value="{$id}">
+</form>
+<div>
+	<div style="    position: fixed;  bottom: 5vmin;   left: 25vmin;" onclick="$('form').submit();">
+
+		<img src="../addons/ly_product_manage/template/mobile/image/confirm_btn.png" style="width: 7vmin;margin-top: -2vmin">
+
+		<span style="font-size: 1.3em;">确认分配销售人员</span>
+	</div>
+</div>
+<script type="text/javascript">
+	function pop(ele) {
+		var picker = new mui.PopPicker();
+		var data=JSON.parse('{$salesman}');
+		console.log(data)
+		picker.setData(data);
+		picker.show(function (selectItems) {
+			console.log(selectItems[0].text);
+			$(ele).prev().html(selectItems[0].text)
+			console.log(selectItems[0].value);
+			$("[name='salesman']").val(selectItems[0].value);
+		})
+	}
+</script>
+{php include $this->template('footer')}

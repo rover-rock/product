@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
+    <script src="https://cdn.bootcss.com/jquery/3.3.1/jquery.min.js"></script>
+	
+	<link rel="stylesheet" type="text/css" href="../addons/ly_product_manage/template/mobile/dist/css/mui.min.css">
+	<link rel="stylesheet" type="text/css" href="../addons/ly_product_manage/template/mobile/picker/css/mui.picker.css">
+	<link rel="stylesheet" type="text/css" href="../addons/ly_product_manage/template/mobile/picker/css/mui.poppicker.css">
+	<link rel="stylesheet" type="text/css" href="../addons/ly_product_manage/template/mobile/picker/css/mui.dtpicker.css">
+	<link href="../app/resource/css/bootstrap.min.css" rel="stylesheet">
+	<script type="text/javascript" src="../addons/ly_product_manage/template/mobile/dist/js/mui.min.js"></script>
+	<script type="text/javascript" src="../addons/ly_product_manage/template/mobile/picker/js/mui.picker.js"></script>
+	<script type="text/javascript" src="../addons/ly_product_manage/template/mobile/picker/js/mui.poppicker.js"></script>
+	<script type="text/javascript" src="../addons/ly_product_manage/template/mobile/picker/js/mui.dtpicker.js"></script>
+	<title>{$title}</title>
+	<style type="text/css">
+	/*个人信心页面顶部样式*/
+		.personinfo-header{
+			display: grid;
+			grid-template-columns: 20vmin 30vmin 20vmin 20vmin;
+			grid-column-gap: 6vmin;
+			background:#4a4848;
+			padding: 5vmin 8vmin;
+			color: white;
+		}
+		.avatar{
+			width: 100%;
+			height: 100%;
+		}
+		.name{
+			font-size: 1.6em;
+    		line-height: 2em;
+
+		}
+		.personalcenter-icon{
+			    width: 35%;
+    margin-left: 70%;
+		}
+		/*tab样式*/
+		.nav-tab{
+		display: grid;
+		grid-template-columns: repeat(3,1fr);
+		text-align: center;
+		font-size: 1.3em;
+		padding: 3vmin;
+		color:gray;
+		 font-family: 宋体;
+	}
+	
+	.nav-tab div:nth-child(2){
+		border-left: 1px solid gray;
+		border-right: 1px solid gray;
+	}
+	.active{
+		color: black;
+	}
+	#tab1{
+		
+	}
+	#tab2{
+		display:none;
+	}
+	#tab3{
+		display:none;
+	}
+	.list-item{
+		padding: 2vmin 5vmin 3vmin 5vmin;
+		border-bottom: 1px solid gray;
+		display: grid;
+		grid-template-columns: 11fr 1fr;
+		    margin: 0 2vmin;
+	}
+	
+	.item1{
+		    font-size: 1.1em;
+    	font-weight: 600;
+	}
+	.item2{
+		font-weight: 600;
+	}
+	.item3{
+		 font-size: 0.9em;
+    font-weight: 550;
+    margin-left: 3vmin;
+	}
+	.item4{
+		font-size: 0.8em;
+	}
+	/*  */
+		.headerimg img{
+		width: 10vmin;
+		height: 10vmin;
+		margin-left: 45vmin;
+		margin-top: 5vmin;
+		margin-bottom: 10vmin;
+	}
+	.line1{
+		margin: 5vmin;
+	}
+	.line1 span{
+		color: gray;
+	}
+	
+	.back-btn{
+		position: fixed;
+		bottom: 10vmin;
+		left:35vmin;
+		cursor: pointer;
+	}
+	.back-btn img{
+		    width: 7vmin;
+    margin: 1vmin 4vmin 2vmin 4vmin;
+	}
+	</style>
+</head>
+<body>

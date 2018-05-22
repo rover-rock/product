@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html style="height: 100%;">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    <link rel="stylesheet" type="text/css" href="../addons/ly_product_manage/template/mobile/css/shch.css"/>
+    <title></title>
+    <script type="text/javascript">
+    	
+   		document.addEventListener('plusready', function(){
+   			//console.log("所有plus api都应该在此事件发生后调用，否则会出现plus is undefined。"
+   			
+   		});
+   		
+    </script>
+</head>
+<body style="height: 100%;">
+	<div class="js xsh" onclick="">
+		<img class="jstx" src="../addons/ly_product_manage/template/mobile/img/xs.png"/>
+		<p class="jsname">销售人员</p>
+	</div>
+	<div class="js cw" onclick="">
+		<img class="jstx" src="../addons/ly_product_manage/template/mobile/img/cw.png"/>
+		<p class="jsname">财务人员</p>
+	</div>
+	<div class="js shch" onclick="">
+		<img class="jstx" src="../addons/ly_product_manage/template/mobile/img/sc.png"/>
+		<p class="jsname">生产人员</p>
+	</div>
+	<div class="js wl" onclick="">
+		<img class="jstx" src="../addons/ly_product_manage/template/mobile/img/wl.png"/>
+		<p class="jsname">物流人员</p>
+	</div>
+	<div class="js shh" onclick="">
+		<img class="jstx" src="../addons/ly_product_manage/template/mobile/img/sh.png"/>
+		<p class="jsname">售后人员</p>
+	</div>
+	<script type="text/javascript">
+		document.querySelector('div').onclick= function () {
+			window.location.href="{php echo $this->createMobileUrl('index')}"
+		}
+	</script>
+</body>
+</html>

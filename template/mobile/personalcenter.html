@@ -1,0 +1,53 @@
+{php include $this->template('header')}
+<style type="text/css">
+	.topinfo{
+		    background: #524d4d;
+	}
+	.topinfo img:nth-child(1){
+		    width: 22vmin;
+    margin: 4vmin 20vmin 4vmin 40vmin;
+    border-radius: 20vmin;
+	}
+	.topinfo img:nth-child(2){
+		    width: 8vmin;
+    
+    margin-top: -12vmin;
+	}
+	.line3{
+		margin: 3vmin;
+		border-bottom: 1px solid #8080805c;
+		padding: 2vmin;
+	}
+	.line3 span{
+		color: gray;
+	}
+	.line2{
+		margin: 3vmin;
+		border-bottom: 1px solid #8080805c;
+		padding: 2vmin;
+	}
+	.line2 span{
+		color: gray;
+	}
+	.line2 span:nth-child(2){
+		margin-left: 39vmin;
+	}
+	.divider2{
+		height: 10vmin;
+		background: #80808021;
+	}
+</style>
+<div class="topinfo">
+	<img src="../addons/ly_product_manage/template/mobile/rate.jpg" class="circle">
+	<img src="../addons/ly_product_manage/template/mobile/image/edit_icon.png">
+</div>
+<div>
+	<div class="line3"><span>姓名：</span>{$user['name']}</div>
+	<div class="line3"><span>工号：</span>{$user['workerid']} </div>
+	<div class="line2"><span>性别</span>{$user['sex']} <span>民族：</span>{$user['race']} </div>
+	<div class="line2"><span>所属部门：</span> 销售  <span>组别：</span> 1组</div>
+	<div class="divider2"></div>
+	<div class="line3"><span>联系电话：</span>{$user['phone']}</div>
+	<div class="line3"><span>常用邮箱：</span>{$user['email']} </div>
+</div>
+{php include $this->template('footer')}

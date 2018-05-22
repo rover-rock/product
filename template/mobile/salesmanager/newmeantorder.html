@@ -1,0 +1,24 @@
+{php include $this->template('header')}
+
+<form class="mui-input-group" method="post">
+	<input type="hidden" name="type" value="1">
+	<div class="mui-input-row">
+		<label>意向购买人</label>
+		<input type="text" class="mui-input" placeholder="请输入" name='name'>
+	</div>
+	<div class="mui-input-row">
+		<label>联系方式</label>
+		<input type="text" class="mui-input" placeholder="请输入" name="phone">
+	</div>
+	<div class="mui-input-row">
+		<label>收货地址</label>
+		<input type="text" class="mui-input" placeholder="请输入" name="addr">
+	</div>
+	<div style="    position: fixed;  bottom: 5vmin;   left: 40vmin;" onclick="$('form').submit();">
+	
+	<img src="../addons/ly_product_manage/template/mobile/image/new_btn.png" style="width: 7vmin;margin-top: -2vmin">
+	
+	<span style="font-size: 1.3em;">提交订单</span>
+	</div>
+</form>
+{php include $this->template('footer')}
