@@ -1,0 +1,152 @@
+{php include $this->template('header')}
+<style type="text/css">
+.mui-input-row label~input{
+	float: left;
+	width: 50vmin;
+}
+.mui-icon{
+	margin-top: 2vmin;
+}
+#panel button:nth-child(1){
+	margin: 2vmin 19vmin;
+}
+#panel button:nth-child(2){
+	    margin: 2vmin;
+}
+#goodslist{
+	padding: 10vmin;
+}
+</style>
+<div id="goodslist">
+	已选品种：
+	<ul class="mui-table-view">
+		
+	</ul>
+</div>
+<form class="mui-input-group" method="post">
+	
+	<div class="mui-input-row">
+		<label>选择大类</label>
+		<input type="text" class="mui-input" placeholder="请输入" >
+		<span class="mui-icon mui-icon-plus" onclick="pop_c1(this)"></span>
+	</div>
+	<div class="mui-input-row">
+		<label>选择小类</label>
+		<input type="text" class="mui-input" placeholder="请输入" >
+		<span class="mui-icon mui-icon-plus" id="c2" onclick="pop_c2(this)"></span>
+	</div>
+	<div class="mui-input-row">
+		<label>购买品种</label>
+		<input type="text" class="mui-input" placeholder="请输入">
+		<span class="mui-icon mui-icon-plus" id="g" onclick="pop_g(this)"></span>
+	</div>
+	<div class="mui-input-row">
+		<label>购买数量</label>
+		<input type="text" class="mui-input" placeholder="请输入" id="num">
+	</div>
+	<div class="mui-input-row">
+		<label>提苗日期</label>
+		<input type="text" class="mui-input" placeholder="请输入" name="time">
+		<span class="mui-icon mui-icon-plus" onclick="pop_date(this)"></span>
+	</div>
+	<div id="panel">
+		<button type="button" onclick="re()">重置</button><button type="button" onclick="addgoods()">增加一种</button>
+	</div>
+	<div class="mui-input-row">
+		<label>购买人</label>
+		<input type="text" class="mui-input" placeholder="请输入" name="name" value="{$client['name']} ">
+	</div>
+	<div class="mui-input-row">
+		<label>联系方式</label>
+		<input type="text" class="mui-input" placeholder="请输入" id="phone" value="{$client['phone']} ">
+	</div>
+	<div class="mui-input-row">
+		<label>收获地址</label>
+		<input type="text" class="mui-input" placeholder="请输入" id="addr" value="{$client['addr']} ">
+	</div>
+	<div style="    position: fixed;  bottom: 5vmin;   left: 30vmin;" onclick="$('form').submit();">
+
+		<img src="../addons/ly_product_manage/template/mobile/image/new_btn.png" style="width: 7vmin;margin-top: -2vmin">
+
+		<span style="font-size: 1.3em;">提交订单等待审核</span>
+	</div>
+</form>
+<script type="text/javascript">
+	function pop_c1(ele) {
+		var picker = new mui.PopPicker();
+		var data=JSON.parse('{$category1}');
+		console.log(data)
+		picker.setData(data);
+		picker.show(function (selectItems) {
+			console.log(selectItems[0].text);
+			$(ele).prev().val(selectItems[0].text)
+			console.log(selectItems[0].value);
+			url="{php echo $this->createMobileUrl('fetch')} ";
+			$.post(url,{type:1,c1:selectItems[0].value},function(res) {
+				$('#c2').data('c2',res);
+			})
+		})
+	}
+	function pop_c2(ele) {
+		var picker = new mui.PopPicker();
+		var data=JSON.parse($(ele).data('c2'));
+		console.log(data)
+		picker.setData(data);
+		picker.show(function (selectItems) {
+			console.log(selectItems[0].text);
+			$(ele).prev().val(selectItems[0].text)
+			console.log(selectItems[0].value);
+			url="{php echo $this->createMobileUrl('fetch')} ";
+			$.post(url,{type:2,c2:selectItems[0].value},function(res) {
+				$('#g').data('goods',res);
+			})
+		})
+	}
+	function pop_g(ele) {
+		var picker = new mui.PopPicker();
+		var data=JSON.parse($('#g').data('goods'));
+		console.log(data)
+		picker.setData(data);
+		picker.show(function (selectItems) {
+			console.log(selectItems[0].text);
+			$(ele).prev().val(selectItems[0].text)
+			console.log(selectItems[0].value);
+			$(ele).data('id',selectItems[0].value);
+		})
+	}
+	function addgoods() {
+		var str1='<input type="hidden" name="goods[]" >';
+		var input_node=$(str1);
+		input_node.val($('#g').data('id'));
+		$('form').append(input_node);
+		var str2='<input type="hidden" name="nums[]" >';
+		var num_node=$(str2);
+		num_node.val($('#num').val());
+		$('form').append(num_node);
+		var str3=`<li class="mui-table-view-cell">	
+		</li>`;
+		var str4='<span class="mui-badge mui-badge-primary">11</span>';
+		var li_node=$(str3);
+		var span_node=$(str4);
+		li_node.html($('#g').prev().val());
+		span_node.html($('#num').val());
+		li_node.append(span_node);
+		$('ul').append(li_node);
+
+	}
+	function pop_date(ele) {
+		var dtPicker = new mui.DtPicker({type:'date'}); 
+    	dtPicker.show(function (selectItems) { 
+        console.log(selectItems);//{text: "2016",value: 2016} 
+        console.log(selectItems.m);//{text: "05",value: "05"} 
+        $(ele).prev().val(selectItems.text)
+    })
+	}
+	function re() {
+		console.log(1);
+		$('ul li').remove();
+		$('form').children('input').remove();
+		$('div input').val('');
+	}
+</script>
+{php include $this->template('footer')}

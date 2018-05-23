@@ -47,7 +47,7 @@ class Ly_product_manageModuleSite extends WeModuleSite {
 	public function route($isweb=true)
 	{
 		global $_GPC,$_W;
-		$_W['openid']=1;
+		$_W['openid']=2;
 		if(!$isweb){
 				//移动端入口
 			$user=pdo_fetch('select * from ims_ly_product_manage_user where openid=:openid',array(':openid'=>$_W['openid']));
@@ -92,6 +92,44 @@ class Ly_product_manageModuleSite extends WeModuleSite {
 	public function doMobileChoose()
 	{
 		include $this->template('choose');
+	}
+	function getOrderStatus($id)
+	{
+		$order=pdo_fetch('select * from ims_ly_product_manage_order where id=:id',array(':id'=>$id));
+		$status=$order['status'];
+		$detailstatus=$order['detailstatus'];
+		switch ($status) {
+			case 1:
+				switch ($detailstatus) {
+					case 1:
+						$res='未分配';
+						break;
+					case 2:
+						$res='已分配未接受';
+						break;
+					case 3:
+						$res='已接受未下单';
+						break;
+					case 4:
+						$res='下单待审核';
+						break;
+					case 5:
+						$res='审核通过';
+						break;
+					case 6:
+						$res='审核未通过';
+						break;
+					default:
+						# code...
+						break;
+				}
+				break;
+			
+			default:
+				# code...
+				break;
+		}
+		return $res;
 	}
 	public function doMobileTest()
 	{

@@ -10,7 +10,7 @@ if ($_W['ispost']) {
 		pdo_insert('ly_product_manage_client',$client);
 		$order['clientid']=pdo_insertid();
 		$order['ordersn']=createOrdersn(1);
-	$order['status']=1;//下单阶段
+	$order['status']=2;//下单阶段
 	$order['type']=3;//经理个人订单
 	$order['create_time']=time();
 	$order['userid']=$user['id'];
@@ -55,7 +55,7 @@ if($_GPC['type']==3){
 	}
 	$category1=json_encode($cate1);
 
-	include $this->template('salesmanager/neworder');
+	include $this->template('salesman/neworder');
 
 }
 else if($_GPC['type']==1){

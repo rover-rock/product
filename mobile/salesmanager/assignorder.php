@@ -21,7 +21,7 @@ $salesman=json_encode($sal);
 $client=pdo_fetch('select * from ims_ly_product_manage_client where id=:id',[':id'=>$order['clientid']]);
 
 //若为修改分配人员
-if($order['detailstatus']==2){
+if($order['detailstatus']==2 ||$order['detailstatus']==3){
 	$assignedman=pdo_fetchcolumn('select name from ims_ly_product_manage_user where id=:id',array(':id'=>$order['userid']));
 	
 }

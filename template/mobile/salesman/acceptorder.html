@@ -1,0 +1,33 @@
+{php include $this->template('header')}
+
+<form class="mui-input-group" method="post">
+	<input type="hidden" name="type" value="1">
+	<div class="mui-input-row">
+		<label>意向购买人</label>
+		<input type="text" class="mui-input"  name='name' value="{$client['name']} " >
+	</div>
+	<div class="mui-input-row">
+		<label>联系方式</label>
+		<input type="text" class="mui-input"  name="phone" value="{$client['phone']} ">
+	</div>
+	<div class="mui-input-row">
+		<label>收货地址</label>
+		<input type="text" class="mui-input"  name="addr" value="{$client['addr']} ">
+	</div>
+	<div style="    position: fixed;  bottom: 5vmin;   left: 40vmin;" onclick="acceptorder()">
+	
+	<img src="../addons/ly_product_manage/template/mobile/image/new_btn.png" style="width: 7vmin;margin-top: -2vmin">
+	
+	<span style="font-size: 1.3em;">接受订单</span>
+	</div>
+</form>
+<script type="text/javascript">
+	function acceptorder() {
+		url="{php echo $this->createMobileUrl('fetch',array('type'=>3,'id'=>$id))} ";
+		$.get(url,function (res) {
+			console.log(res);
+			window.location.href="{php echo $this->createMobileUrl('index')} ";
+		})
+	}
+</script>
+{php include $this->template('footer')}

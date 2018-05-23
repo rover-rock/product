@@ -35,6 +35,7 @@ if ($order['detailstatus']==2) {
 	exit();
 }
 elseif($order['detailstatus']==3){
+	
 	include $this->template('salesman/neworder');
 	exit();
 }

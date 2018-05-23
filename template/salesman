@@ -1,5 +1,0 @@
-8-03-24 19:06:06,812 INFO executor.py 89 put msg : [{'sender': 'nws_sender', 'datas': [{'timestamp': 1521889566, 'namespace': 'qce/cvm', 'dimension': {'vmip': '172.21.0.5', 'vm_uuid': '4f97956e-c9ec-4916-bb35-9861707d65c4'}, 'batch': [{'name': 'cpu_usage', 'value': 50.600000000000001}, {'name': 'cpu_load_1', 'value': 100.0}]}]}] to dispatcher
-2018-03-24 19:06:06,812 INFO scheduler.py 527 Job "CpuCollector.collect (trigger: interval[0:00:10], next run at: 2018-03-24 19:06:06.801063)" executed successfully
-2018-03-24 19:06:07,802 INFO scheduler.py 509 Running job "TcpCollector.collect (trigger: interval[0:00:10], next run at: 2018-03-24 19:06:07.801063)" (scheduled at 2018-03-24 19:06:07.801063)
-2018-03-24 19:06:07,803 INFO executor.py 89 put msg : [{'sender': 'nws_sender', 'datas': [{'timestamp': 1521889567, 'namespace': 'qce/cvm', 'dimension': {'vmip': '172.21.0.5', 'vm_uuid': '4f97956e-c9ec-4916-bb35-9861707d65c4'}, 'batch': [{'unit': 'count', 'name': 'tcp_curr_estab', 'value': 4}]}]}] to dispatcher
-2018-03-

@@ -16,7 +16,7 @@
 }
 .a img{
 	width: 6vmin;
-	margin-left: 42vmin;
+	margin-left: 12vmin;
 }
 .b{
 	padding: 5vmin;
@@ -35,7 +35,7 @@
 </div>
 <div class="divider1"></div>
 <div class="a">
-	<p>销售人员：<span>{if $order['detailstatus']==2} {$assignedman} {else} 未分配 {/if} </span>
+	<p>销售人员：<span>{if $order['detailstatus']==2} {$assignedman}未接受 {elseif $order['detailstatus']==3} {$assignedman}已接受，禁止修改 {else}未分配 {/if} </span>
 	<img src="../addons/ly_product_manage/template/mobile/image/new_btn.png" onclick="pop(this)"></p>
 </div>
 <div class="divider1"></div>
