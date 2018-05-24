@@ -31,45 +31,48 @@
 	bottom: 3vmin;
 
 }
-
+.divider2{
+	background: lightgray;
+	height: 2vmin;
+}
 </style>
 
-<div class="nav-tab">
-	<div data-flag=1 class="active">新增订单</div>
-	<div data-flag=2>新增审批</div>
-	<div data-flag=3>订单中心</div>
+<div class="nav-tab nav-tab1">
+	<div data-flag=1 class="active">订单定金</div>
+	<div data-flag=2>订单尾款</div>
 </div>
+<div class="divider2"></div>
 <div class="tab-content">
 	<div id="tab1" >
 		<div class="nav-tab nav-tab1">
-			<div data-flag=1 class="active">未分配</div>
-			<div data-flag=2>已分配</div>
+			<div data-flag=1 class="active">未支付</div>
+			<div data-flag=2>已支付</div>
 		</div>
 		<div class="tab-content">
 			<div>
-				{loop $order['new_assigning'] $list $item}
+				{loop $deposit_unpaid $list $item}
 				<div class="list-item">
 					<div>
 						<div >
 							<span class="item1">订单编号：</span>
 							<span class="item2">{$item['ordersn']}</span>
-							<span class="label label-default">未分配</span>
+							<span class="label label-default">{php echo $this->getOrderStatus($item['id'])} </span>
 						</div>
 						<div>
-							<span class="item3">购买人：</span>
-							<span class="item4">{$item['clientid']}</span>
-							<span class="item3">下单时间：</span>
+							<span class="item3">定金金额：</span>
+							<span class="item4">{$item['price']}</span>
+							<span class="item3">签约时间：</span>
 							<span class="item4">{php echo date("Y-m-d",$item['create_time'])}</span>
 						</div>
 					</div>
 					<div>
-						<img src="../addons/ly_product_manage/template/mobile/image/more_btn.png" style="width: 100%;height: 80%;" onclick="window.location.href='{php echo $this->createMobileUrl('index',array('action'=>'assignorder','id'=>$item['id']))}'">
+						<img src="../addons/ly_product_manage/template/mobile/image/more_btn.png" style="width: 100%;height: 80%;" onclick="window.location.href='{php echo $this->createMobileUrl('index',array('action'=>'detail','id'=>$item['id'],'op'=>1))}'">
 					</div>
 				</div>
 				{/loop}
 			</div>
 			<div>
-				{loop $order['new_assigned'] $list $item}
+				{loop $deposit_paid $list $item}
 				<div class="list-item">
 					<div>
 						<div >
@@ -95,12 +98,12 @@
 	</div>
 	<div id="tab2" >
 		<div class="nav-tab nav-tab1">
-			<div data-flag=1 class="active">未审批</div>
-			<div data-flag=2>已审批</div>
+			<div data-flag=1 class="active">未确认</div>
+			<div data-flag=2>已确认</div>
 		</div>
 		<div class="tab-content">
 			<div>
-				{loop $order['new_verifing'] $list $item}
+				{loop $deposit_paid $list $item}
 				<div class="list-item">
 					<div>
 						<div >
@@ -122,64 +125,7 @@
 				{/loop}
 			</div>
 			<div>
-				{loop $order['new_verified'] $list $item}
-				<div class="list-item">
-					<div>
-						<div >
-							<span class="item1">订单编号：</span>
-							<span class="item2">{$item['ordersn']}</span>
-							<span class="label label-default">
-								{if $item['detailstatus']==5}已审批通过
-								{else}已审批拒绝
-								{/if}
-							</span>
-						</div>
-						<div>
-							<span class="item3">购买人：</span>
-							<span class="item4">{$item['clientid']}</span>
-							<span class="item3">下单时间：</span>
-							<span class="item4">{php echo date("Y-m-d",$item['create_time'])}</span>
-						</div>
-					</div>
-					<div>
-						<img src="../addons/ly_product_manage/template/mobile/image/more_btn.png" style="width: 100%;height: 80%;" onclick="window.location.href='{php echo $this->createMobileUrl('index',array('action'=>'detail','id'=>$item['id']))}'">
-					</div>
-				</div>
-				{/loop}
-			</div>  
-		</div>
-		
-	</div>
-	<div id="tab3">
-		<div class="nav-tab nav-tab1">
-			<div data-flag=1 class="active">员工订单</div>
-			<div data-flag=2>个人订单</div>
-		</div>
-		<div class="tab-content">
-			<div>
-				{loop $order['assigntype'] $list $item}
-				<div class="list-item">
-					<div>
-						<div >
-							<span class="item1">订单编号：</span>
-							<span class="item2">{$item['ordersn']}</span>
-							<span class="label label-default">{php echo $this->getOrderStatus($item['id'])}</span>
-						</div>
-						<div>
-							<span class="item3">购买人：</span>
-							<span class="item4">{$item['clientid']}</span>
-							<span class="item3">下单时间：</span>
-							<span class="item4">{php echo date("Y-m-d",$item['create_time'])}</span>
-						</div>
-					</div>
-					<div>
-						<img src="../addons/ly_product_manage/template/mobile/image/more_btn.png" style="width: 100%;height: 80%;" onclick="window.location.href='{php echo $this->createMobileUrl('index',array('action'=>'detail','id'=>$item['id']))}'">
-					</div>
-				</div>
-				{/loop}
-			</div>
-			<div>
-				{loop $order['personaltype'] $list $item}
+				{loop $restmoney_paid $list $item}
 				<div class="list-item">
 					<div>
 						<div >
@@ -201,6 +147,7 @@
 				{/loop}
 			</div>  
 		</div>
+		
 	</div>
 </div>
 <div class="btnpanel">

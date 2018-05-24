@@ -2,6 +2,7 @@
 $op=$_GPC['op'];
 $id=$_GPC['id'];
 $order=pdo_fetch('select * from ims_ly_product_manage_order where id=:id',array(':id'=>$id));
+$name=pdo_fetchcolumn('select name from ims_ly_product_manage_user where id=:id',[':id'=>$order['userid']]);
 if($_W['ispost']){
 	//确认拒绝审核
 	pdo_update('ly_product_manage_order',array('refuse_type'=>1,'refuse_reason'=>$_GPC['reason'],'detailstatus'=>6,'verify_time'=>time()),array('id'=>$id));
@@ -10,12 +11,14 @@ if($_W['ispost']){
 }
 if($op=='refuse'){
 	$title='拒绝订单';
-	$name=pdo_fetchcolumn('select name from ims_ly_product_manage_user where id=:id',[':id'=>$order['userid']]);
+	
 	include $this->template('salesmanager/refuseorder');
 	exit();
 }
 else if($op=='pass'){
 	$title='批准订单';
+	
+	pdo_update('ly_product_manage_order',array('detailstatus'=>5,'verify_time'=>time()),array('id'=>$id));
 	include $this->template('salesmanager/passorder');
 	exit();
 }

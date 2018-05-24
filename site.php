@@ -47,7 +47,7 @@ class Ly_product_manageModuleSite extends WeModuleSite {
 	public function route($isweb=true)
 	{
 		global $_GPC,$_W;
-		$_W['openid']=2;
+		$_W['openid']=3;
 		if(!$isweb){
 				//移动端入口
 			$user=pdo_fetch('select * from ims_ly_product_manage_user where openid=:openid',array(':openid'=>$_W['openid']));
@@ -70,6 +70,11 @@ class Ly_product_manageModuleSite extends WeModuleSite {
 					}
 					else{
 						$file=$action;
+						if ($action=='personalcenter') {
+							include IA_ROOT .  '/addons/ly_product_manage/mobile/'.$file.'.php';
+							exit();
+						}
+						
 
 					}
 
@@ -124,7 +129,19 @@ class Ly_product_manageModuleSite extends WeModuleSite {
 						break;
 				}
 				break;
-			
+			case 2:
+				switch ($order['pay_status']) {
+					case 1:
+						$res='签约未支付';
+						break;
+					case 2:
+						$res='定金已支付';
+						break;
+					default:
+						# code...
+						break;
+				}
+				break;
 			default:
 				# code...
 				break;
@@ -133,8 +150,20 @@ class Ly_product_manageModuleSite extends WeModuleSite {
 	}
 	public function doMobileTest()
 	{
-		
-	
+		extension_loaded("imap");
+		var_dump(get_extension_funcs("imap")) ; exit();
+		$mailServer="imap.qq.com"; //IMAP主机
+$mailLink="{{$mailServer}:143}INBOX" ; //imagp连接地址：不同主机地址不同
+$mailUser = '362463215@qq.com'; //邮箱用户名
+$mailPass = 'mitcmfbrksrzcbda'; //邮箱密码
+$mbox = imap_open($mailLink,$mailUser,$mailPass); //开启信箱imap_open
+$totalrows = imap_num_msg($mbox); //取得信件数
+for ($i=1;$i<$totalrows;$i++){
+  $headers = imap_fetchheader($mbox, $i); //获取信件标头
+  $headArr = matchMailHead($headers); //匹配信件标头
+  $mailBody = imap_fetchbody($mbox, $i, 1); //获取信件正文
+}
+	var_dump($mailBody);exit();
 	}
 	function setTimer($value='')
 	{

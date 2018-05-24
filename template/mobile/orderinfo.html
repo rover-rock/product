@@ -1,125 +1,130 @@
 <style type="text/css">
-	.ddxq-t{
-	width: 90vw;
-	height: auto;
-	background-color: white;
-	margin-top: 2vw;
-	padding: 3vw 5vw;
+
+#tab1{
+	padding: 2vw 2vw;
 }
-.ddxq-t p{
-	color: #cccccc;
+#tab1 p{
+	padding:2vw 6vw;
 }
-.ddxq-t span{
-	color: black;
+#tab2{
+	    padding: 7vmin;
 }
-.ddxq-jb{
-	background-color: white;
-	width: 100vw;
-	height: auto;
-	margin-top: 2vw;
-}
-.ddxq-gz{
-	background-color: white;
-	width: 100vw;
-	height: auto;
-	margin-top: 2vw;
-	position: relative;
-}
-.ddxq-jb-l-jh{
-	width: 50vw;
-	height: auto;
-	line-height:10vw;
+.nav-tab2{
+	display: grid;
+	grid-template-columns: 1fr 1fr;
 	text-align: center;
-	float: left;
-	background-color: white;
+	padding: 7vmin 2vmin;
+	color: gray;
 }
-.ddxq-jb-r-jh{
-	width: 50vw;
-	height: auto;
-	line-height:10vw;
-	text-align: center;
-	float: left;
-	background-color: white;
+.nav-tab2 div{
+	padding: 2vmin;
 }
-.ddxq-jb-l{
-	width: 49vw;
-	height: auto;
-	line-height:10vw;
-	text-align: center;
-	float: left;
-	background-color: white;
-	color:#cccccc;
-	border-right:1px solid #cccccc;
-	border-bottom:1px solid #cccccc ;
+.nav-tab2 div:nth-child(1){
+	border-right: 1px solid #9e9e9e8f;
+
 }
-.ddxq-jb-r{
-	width: 49vw;
-	height: auto;
-	line-height:10vw;
-	text-align: center;
-	float: left;
-	background-color: white;
-	color:#cccccc;
-	border-left:1px solid #cccccc;
-	border-bottom:1px solid #cccccc ;
+.active{
+	border-bottom: 1px solid #9e9e9e8f;
 }
-.ddxq-jbnr{
-	padding: 20vw 0vw;
-}
-.ddxq-jbnr p{
-	padding:2vw 5vw;
-}
-.ddxq-gznr{
-	width: 96vw;
-	height: auto;
-	margin-top: 10vw;
-	margin-left: 4vw;
-}
-.ddxq-gzk{
+.item{
 	width: 80vw;
-	margin-left:5vw ;
-	height: auto;
-	border-left: 2px solid #cccccc;
-	padding-left:5vw;
-	padding-top: 2vw ;
-	font-size: 3.5vw;
+    margin-left: 5vw;
+    height: auto;
+    border-left: 2px solid #cccccc;
+    padding-left: 5vw;
+    padding-top: 2vw;
+    font-size: 3.5vw;
 }
-.ddxq-gzk p{
+.item div:nth-child(1){
+	    width: 3vw;
+    height: 3vw;
+    border-radius: 5vw;
+    background-color: white;
+    border: 1px solid #cccccc;
+    position: relative;
+    left: -6.7vw;
+    top: -5vw;
+}
+.item p{
+	    float: left;
+    position: relative;
+    top: -9vw
+}
+.item p:nth-child(2){
+        color: #cccccc;
+        width: 34vw;
+}
+.item p:nth-child(3){
 	position: relative;
-	top: -9vw;
-}
-.ddxq-gzk-time{
-	width: 42vw;
-	height: auto;
-	/*background-color: navajowhite;*/
-	float: left;
-}
-.ddxq-gzk-nr{
+    top: -9vw;
 	width: 38vw;
-	height: auto;
-	/*background-color: aqua;*/
-	float: left;
 }
 </style>
 
-<div class="ddxq-jb">
-			<div class="ddxq-jb-l-jh">
-				基本信息
-			</div>
-			<div class="ddxq-jb-r">
-				跟踪信息
-			</div>
-			<div class="ddxq-jbnr">
-				<p>购买品类：茄子</p>
-				<p>购买规格：长茄/长茄一号</p>
-				<p>购买数量：10000<span>株</span></p>
-				<p>提苗日期：2018年5月23日</p>
-				<p>购买人：王 强（寿光市种苗公司）</p>
-				<p>联系电话：+86 186 7777 8888</p>
-				<p>收货地址：山东省 潍坊市 寿光市 渤海路237号</p>
-				<p>合同金额：6,000.00元</p>
-				<p>电子合同：<a href="">尚未签订</a></p>
-
-			</div>
+<div class="nav-tab2">
+	<div data-flag=1 >基本信息</div>
+	<div data-flag=2 class="active">跟踪信息</div>
 </div>
+<div class="tab-content">
+	<div id="tab1" >
+		<p>购买品类：茄子</p>
+		<p>购买规格：长茄/长茄一号</p>
+		<p>购买数量：10000<span>株</span></p>
+		<p>提苗日期：2018年5月23日</p>
+		<p>购买人：王 强（寿光市种苗公司）</p>
+		<p>联系电话：+86 186 7777 8888</p>
+		<p>收货地址：山东省 潍坊市 寿光市 渤海路237号</p>
+		<p>合同金额：6,000.00元</p>
+		<p>电子合同：<a href="">尚未签订</a></p>
+	</div>
+	<div id="tab2" >
+		<div class="item">
+			<div class="shixinqiu"></div>
+			<p class="ddxq-gzk-time">2018年5月23日 14：42</p>
+			<p class="ddxq-gzk-nr"> 订单未通过审核<br />审核人：郎益民<br />未通过原因：<a href="#">点击查看</a></p>	
+			<div style="clear: both;"></div>
+		</div>
+		<div class="item">
+			<div class="kongxinqiu"></div>
+			<p class="ddxq-gzk-time fzd">2018年5月23日 14：42</p>
+			<p class="ddxq-gzk-nr fzd"> 已发送订单审核</p>	
+			<div style="clear: both;"></div>
+		</div>
+		<div class="item">
+			<div class="kongxinqiu"></div>
+			<p class="ddxq-gzk-time fzd">2018年5月23日 14：42</p>
+			<p class="ddxq-gzk-nr fzd"> 订单已接受<br />接收人：张 钢蛋</p>	
+			<div style="clear: both;"></div>
+		</div>
+		<div class="item">
+			<div class="kongxinqiu"></div>
+			<p class="ddxq-gzk-time fzd">2018年5月23日 14：42</p>
+			<p class="ddxq-gzk-nr fzd"> 新增订单,等待接受</p>	
+			<div style="clear: both;"></div>
+		</div>
+	</div>
+</div>
+<script type="text/javascript">
 
+
+	$(function () {
+		$('.tab-content').children().hide();
+		$('.tab-content').each(function () {
+			$(this).children().eq(0).show();
+		}
+		)
+
+		$('.nav-tab2').children().on('click',function () {
+			$(this).parent().children().addClass('active');
+			$(this).removeClass('active');
+			var index=$(this).data('flag')-1;
+			console.log(index);
+			var showTab=$(this).parent().siblings('.tab-content').children().eq(index);
+			activate(showTab);			
+		})
+	})
+	function activate(el) {
+		el.parent().children().hide();
+		el.show();
+	}
+</script>

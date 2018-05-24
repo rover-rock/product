@@ -1,0 +1,52 @@
+{php include $this->template('header')}
+{php include $this->template('progress')}
+<style type="text/css">
+	.divider1{
+		height: 3vmin;
+		background: #9e9e9e69;
+	}
+	.a{
+		padding: 2vmin 4vmin;
+		border-bottom: 1px solid lightgray;
+	}
+	.b{
+		padding: 2vmin 4vmin;
+	}
+	.b span{
+		color: gray;
+	}
+	.mybutton{
+		display: inline; 
+		margin-left: 40vmin;
+    margin-right: 10vmin;
+	}
+	.mybutton img{
+		width: 6vmin; 
+		
+	}
+	
+	.btnpanel{
+		position: fixed;
+		bottom: 3vmin;
+
+	}
+</style>
+<div class="divider1"></div>
+<div class="a" > 订单编号：{$order['ordersn']}</div>
+<div class="b">签约时间：<span>{php echo date('Y-m-d',$order['contact_time']) }</span></div>
+<div class="divider1"></div>
+<div class="a" > 订单金额：{$order['price']}</div>
+<div class="b">应付定金：<span>{$order['price']}</span></div>
+<div class="divider1"></div>
+<div class="a" > 购买人：{$order['clientid']}</div>
+<div class="b">购买明细：</div>
+{loop $goods $index $item}
+<div class="b">{$item['category1']},{$item['category2']},{$item['name']},{$item['num']}株 </div>
+{/loop}
+
+<div class="btnpanel">
+	<div class="mybutton " onclick="window.location.href='{php echo $this->createMobileUrl("index",array("action"=>"detail","op"=>"2","id"=>$id))}'">
+		<img src="../addons/ly_product_manage/template/mobile/image/confirm_btn.png">定金支付确认</div>
+</div>
+
+{php include $this->template('footer')}
