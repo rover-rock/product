@@ -45,8 +45,16 @@
 <div class="tab-content">
 	<div id="tab1" >
 		<div class="nav-tab nav-tab1">
-			<div data-flag=1 class="active">未支付</div>
-			<div data-flag=2>已支付</div>
+			<div data-flag=1 class="active">
+				{if $user['role']==4}未确认
+				{else}未支付
+				{/if}
+			</div>
+			<div data-flag=2>
+				{if $user['role']==4}已确认
+				{else}已支付
+				{/if}
+			</div>
 		</div>
 		<div class="tab-content">
 			<div>
@@ -78,7 +86,7 @@
 						<div >
 							<span class="item1">订单编号：</span>
 							<span class="item2">{$item['ordersn']}</span>
-							<span class="label label-default">已分配</span>
+							<span class="label label-default">{php echo $this->getOrderStatus($item['id'])}</span>
 						</div>
 						<div>
 							<span class="item3">购买人：</span>
@@ -88,7 +96,7 @@
 						</div>
 					</div>
 					<div>
-						<img src="../addons/ly_product_manage/template/mobile/image/more_btn.png" style="width: 100%;height: 80%;" onclick="window.location.href='{php echo $this->createMobileUrl('index',array('action'=>'assignorder','id'=>$item['id']))}'">
+						<img src="../addons/ly_product_manage/template/mobile/image/more_btn.png" style="width: 100%;height: 80%;" onclick="window.location.href='{php echo $this->createMobileUrl('index',array('action'=>'detail','id'=>$item['id'],'op'=>1))}'">
 					</div>
 				</div>
 				{/loop}
@@ -98,18 +106,26 @@
 	</div>
 	<div id="tab2" >
 		<div class="nav-tab nav-tab1">
-			<div data-flag=1 class="active">未确认</div>
-			<div data-flag=2>已确认</div>
+			<div data-flag=1 class="active">
+				{if $user['role']==4}未确认
+				{else}未支付
+				{/if}
+			</div>
+			<div data-flag=2>
+				{if $user['role']==4}已确认
+				{else}已支付
+				{/if}
+			</div>
 		</div>
 		<div class="tab-content">
 			<div>
-				{loop $deposit_paid $list $item}
+				{loop $restmoney_unpaid $list $item}
 				<div class="list-item">
 					<div>
 						<div >
 							<span class="item1">订单编号：</span>
 							<span class="item2">{$item['ordersn']}</span>
-							<span class="label label-default">未审批</span>
+							<span class="label label-default">{php echo $this->getOrderStatus($item['id'])}</span>
 						</div>
 						<div>
 							<span class="item3">购买人：</span>
@@ -119,7 +135,7 @@
 						</div>
 					</div>
 					<div>
-						<img src="../addons/ly_product_manage/template/mobile/image/more_btn.png" style="width: 100%;height: 80%;" onclick="window.location.href='{php echo $this->createMobileUrl('index',array('action'=>'verifyorder','id'=>$item['id']))}'">
+						<img src="../addons/ly_product_manage/template/mobile/image/more_btn.png" style="width: 100%;height: 80%;" onclick="window.location.href='{php echo $this->createMobileUrl('index',array('action'=>'detail','id'=>$item['id'],'op'=>1))}'">
 					</div>
 				</div>
 				{/loop}
@@ -131,7 +147,7 @@
 						<div >
 							<span class="item1">订单编号：</span>
 							<span class="item2">{$item['ordersn']}</span>
-							<span class="label label-default">已审批</span>
+							<span class="label label-default">{php echo $this->getOrderStatus($item['id'])}</span>
 						</div>
 						<div>
 							<span class="item3">购买人：</span>
@@ -141,7 +157,7 @@
 						</div>
 					</div>
 					<div>
-						<img src="../addons/ly_product_manage/template/mobile/image/more_btn.png" style="width: 100%;height: 80%;" onclick="window.location.href='{php echo $this->createMobileUrl('index',array('action'=>'detail','id'=>$item['id']))}'">
+						<img src="../addons/ly_product_manage/template/mobile/image/more_btn.png" style="width: 100%;height: 80%;" onclick="window.location.href='{php echo $this->createMobileUrl('index',array('action'=>'detail','id'=>$item['id'],'op'=>1))}'">
 					</div>
 				</div>
 				{/loop}
@@ -150,12 +166,12 @@
 		
 	</div>
 </div>
-<div class="btnpanel">
+<!-- <div class="btnpanel">
 	<div class="mybutton left" onclick="window.location.href='{php echo $this->createMobileUrl("index",array("action"=>"neworder","type"=>"3"))}'">
 		<img src="../addons/ly_product_manage/template/mobile/image/new_btn.png">新增个人订单</div>
 		<div class="mybutton" onclick="window.location.href='{php echo $this->createMobileUrl("index",array("action"=>"neworder","type"=>"1"))}'">
 			<img src="../addons/ly_product_manage/template/mobile/image/new_btn.png">新增意向订单</div>
-		</div>
+		</div> -->
 		<script type="text/javascript">
 
 

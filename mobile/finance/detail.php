@@ -9,21 +9,25 @@ foreach ($goods as $key => $value) {
 	$goods[$key]['category2']=pdo_fetchcolumn('select name from ims_ly_product_manage_category2 where id=:id',array(':id'=>$data['category2']));
 	$goods[$key]['name']=$data['name'];
 }
+
 //进度图片
 $status=1;
 if ($order['pay_status']==1||$order['pay_status']==2) {
 	//定金确认
 	$title="定金确认";
+	$type=$user['role']+1;
 	if ($_GPC['op']==1) {
 		include $this->template('finance/confirmDeposit1');
 	}
 	elseif ($_GPC['op']==2) {
+
 		include $this->template('finance/confirmDeposit2');
 	}
 }
 elseif ($order['pay_status']==3||$order['pay_status']==4) {
 	//尾款确认
 	$title="尾款确认";
+	$type=$user['role']+3;
 	if ($_GPC['op']==1) {
 		include $this->template('finance/confirmRest1');
 	}

@@ -1,0 +1,146 @@
+{php include $this->template('header')}
+{php include $this->template('personinfo')}
+<style type="text/css">
+.nav-tab1{
+	display: grid;
+	grid-template-columns: repeat(2,1fr);
+	text-align: center;
+	font-size: 1.3em;
+	padding: 3vmin;
+
+}
+
+.nav-tab1 div:nth-child(2){
+	border-right: none;
+
+}
+.mybutton{
+	display: inline; 
+}
+.mybutton img{
+	width: 6vmin;
+	margin-top: -1vmin;
+	margin-right: 1vmin;
+}
+.left{
+	margin-left: 38vmin;
+	margin-right: 10vmin;
+}
+.btnpanel{
+	position: fixed;
+	bottom: 3vmin;
+
+}
+
+</style>
+
+<div class="nav-tab">
+	<div data-flag=1 class="active">未开始</div>
+	<div data-flag=2>已开始</div>
+	<div data-flag=3>补苗</div>
+</div>
+<div class="tab-content">
+	<div id="tab1" >
+		
+				{loop $notStartedOrder $list $item}
+				<div class="list-item">
+					<div>
+						<div >
+							<span class="item1">生产订单编号：</span>
+							<span class="item2">{$item['id']}</span>
+							<span class="label label-default">
+								新接收任务未开始
+							</span>
+						</div>
+						<div>
+							<span class="item3">品种种类：</span>
+							<span class="item4">{$item['goodsname']}</span>
+							<span class="item3">种植数量：</span>
+							<span class="item4">{$item['num']}</span>
+						</div>
+					</div>
+					<div>
+						<img src="../addons/ly_product_manage/template/mobile/image/more_btn.png" style="width: 100%;height: 80%;" onclick="window.location.href='{php echo $this->createMobileUrl('index',array('action'=>'ogDetail','id'=>$item['id']))}'">
+					</div>
+				</div>
+				{/loop}
+			
+		
+	</div>
+	<div id="tab2" >
+				{loop $verifiedOrder $list $item}
+				<div class="list-item">
+					<div>
+						<div >
+							<span class="item1">订单编号：</span>
+							<span class="item2">{$item['ordersn']}</span>
+							<span class="label label-default">
+								{if $item['detailstatus']==6}已拒绝
+								{else}已通过
+								{/if}
+							</span>
+						</div>
+						<div>
+							<span class="item3">购买人：</span>
+							<span class="item4">{$item['clientid']}</span>
+							<span class="item3">下单时间：</span>
+							<span class="item4">{php echo date("Y-m-d",$item['create_time'])}</span>
+						</div>
+					</div>
+					<div>
+						<img src="../addons/ly_product_manage/template/mobile/image/more_btn.png" style="width: 100%;height: 80%;" onclick="window.location.href='{php echo $this->createMobileUrl('index',array('action'=>'detail','id'=>$item['id']))}'">
+					</div>
+				</div>
+				{/loop}	
+	</div>
+	<div id="tab3">
+		
+				{loop $allOrder $list $item}
+				<div class="list-item">
+					<div>
+						<div >
+							<span class="item1">订单编号：</span>
+							<span class="item2">{$item['ordersn']}</span>
+							<span class="label label-default">未审批</span>
+						</div>
+						<div>
+							<span class="item3">购买人：</span>
+							<span class="item4">{$item['clientid']}</span>
+							<span class="item3">下单时间：</span>
+							<span class="item4">{php echo date("Y-m-d",$item['create_time'])}</span>
+						</div>
+					</div>
+					<div>
+						<img src="../addons/ly_product_manage/template/mobile/image/more_btn.png" style="width: 100%;height: 80%;" onclick="window.location.href='{php echo $this->createMobileUrl('index',array('action'=>'detail','id'=>$item['id']))}'">
+					</div>
+				</div>
+				{/loop}
+		
+	</div>
+</div>
+		<script type="text/javascript">
+
+
+			$(function () {
+				$('.tab-content').children().hide();
+				console.log($('.tab-content').children())
+				$('.tab-content').each(function () {
+					$(this).children().eq(0).show();
+				}
+				)
+
+				$('.nav-tab').children().on('click',function () {
+					$(this).parent().children().removeClass('active');
+					$(this).addClass('active');
+					var index=$(this).data('flag')-1;
+					console.log(index);
+					var showTab=$(this).parent().siblings('.tab-content').children().eq(index);
+					activate(showTab);			
+				})
+			})
+			function activate(el) {
+				el.parent().children().hide();
+				el.show();
+			}
+		</script>
+		{php include $this->template('footer')}

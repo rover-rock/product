@@ -1,0 +1,30 @@
+{php include $this->template('header')}
+<div><a href="{php echo $this->createMobileUrl('index',array('action'=>'addRepo'))}" class="btn btn-info" style="margin-left: 70%;margin-top: 2vmin;">新建仓库</a></div>
+<table class="table table-striped">
+	<caption>仓库列表</caption>
+  <thead>
+    <tr>
+      <th>ID</th>
+      <th>名称</th>
+      <th>操作</th>
+    </tr>
+  </thead>
+  <tbody>
+  	{loop $repos $index $item}
+    <tr>
+      <td>{$item['id']} </td>
+      <td>{$item['name']} </td>
+      <td>
+      	 <a class="btn btn-success btn-sm" href="{php echo $this->createMobileUrl('index',array('action'=>'lineManage','id'=>$item['id']))}">查看生产线</a>
+      	 <a class="btn btn-info btn-sm" href="{php echo $this->createMobileUrl('index',array('action'=>'addRepo','id'=>$item['id']))}">修改</a>
+      	 <a class="btn btn-danger btn-sm" href="{php echo $this->createMobileUrl('index',array('action'=>'delRepo','id'=>$item['id']))}">删除</a>
+      </td>
+    </tr>
+    {/loop}
+  </tbody>
+</table>
+
+
+
+
+{php include $this->template('footer')}

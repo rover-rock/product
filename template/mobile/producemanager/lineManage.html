@@ -1,0 +1,33 @@
+{php include $this->template('header')}
+
+<div><h3 style="display: inline;"><span class="label label-info">所属仓库：{$repo}</span></h3><a href="{php echo $this->createMobileUrl('index',array('action'=>'addLine','repoid'=>$repoid))}" class="btn btn-success" style="margin-left: 70%;">新建生产线</a></div>
+<table class="table">
+  <caption>生产线管理</caption>
+  <thead>
+    <tr>
+      <th>ID</th>
+      <th>名称</th>
+      <th>状态</th>
+      <th>生产订单</th>
+      <th>开始时间</th>
+      <th>操作</th>
+    </tr>
+  </thead>
+  <tbody>
+    
+  	{loop $lines $index $item}
+    <tr>
+      <td>{$item['id']}</td>
+      <td>{$item['name']}</td>
+      <td>{$item['status']}</td>
+      <td>{$item['ordergoodsid']} </td>
+      <td>{$item['time']}</td>
+      <td>
+         <a class="btn btn-info btn-sm" href="{php echo $this->createMobileUrl('index',array('action'=>'addLine','id'=>$item['id'],'repoid'=>$repoid))}">修改</a>
+         <a class="btn btn-danger btn-sm" href="{php echo $this->createMobileUrl('index',array('action'=>'delLine','id'=>$item['id'],'repoid'=>$repoid))}">删除</a>
+      </td>
+    </tr>
+    {/loop}
+  </tbody>
+</table>
+{php include $this->template('footer')}

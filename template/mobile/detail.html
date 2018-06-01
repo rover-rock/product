@@ -1,48 +1,169 @@
 {php include $this->template('header')}
 {php include $this->template('progress')}
 <style type="text/css">
-	.divider1{
-		height: 3vmin;
-		background: #9e9e9e69;
-	}
-	#a{
-		padding: 2vmin 4vmin;
-	}
-	#b{
-		padding: 2vmin 4vmin;
-	}
-	#b span{
-		color: gray;
-	}
-	.mybutton{
-		display: inline; 
-	}
-	.mybutton img{
-		width: 6vmin;
-	}
-	.left{
-		    margin-left: 25vmin;
-    margin-right: 10vmin;
-	}
-	.btnpanel{
-		position: fixed;
-		bottom: 3vmin;
+.divider1{
+	height: 3vmin;
+	background: #9e9e9e69;
+}
+#a{
+	padding: 2vmin 4vmin;
+}
+#b{
+	padding: 2vmin 4vmin;
+}
+#b span{
+	color: gray;
+}
+#c{
+	padding: 2vmin 4vmin;
+}
+#c img{
+	width: 6vmin;
+	margin-left: 30vmin;
+	margin-top: -1vmin;
+}
+.mybutton{
+	display: inline; 
+}
+.mybutton img{
+	width: 6vmin;
+}
+.left{
+	margin-left: 25vmin;
+	margin-right: 10vmin;
+}
+.middle{
+	margin-left: 35vw;
+}
+.btnpanel{
+	position: fixed;
+	bottom: 3vmin;
 
-	}
+}
+#goodslist img{
+	width:5vmin;
+	margin-left: 2vmin;
+}
 </style>
 <div class="divider1"></div>
 <div id="a"> 订单编号：{$order['ordersn']}</div>
 <div class="divider1"></div>
-<div id="b">销售人员：<span>{$user['name']}</span></div>
+
+{if $user['role']==1||$user['role']==2}
+<div id="b">销售人员：<span>{$order['userid']}</span></div>
+{/if}
+
+{if $user['role']==5}
+<div id="b">生产人员：<span>{$order['produce_user']}</span>
+	
+</div>
+<div class="divider1"></div>
+<div>
+	<div style="padding:2vmin;">生产订单列表</div>
+	<ul class="mui-table-view">
+		{loop $goods $index $item}
+		<a href="{php echo $this->createMobileUrl('index',['action'=>'ogDetail','id'=>$item['id']])} ">
+			<li class="mui-table-view-cell">{$item['name']}—数量：{$item['num']} <span>&nbsp;&nbsp;生产线：{$item['line']} </span>
+			</li>
+		</a>
+		
+		{/loop}
+	</ul>
+</div>
+{/if}
+
+{if $user['role']==5}
+<form method="post">
+	<input type="hidden" name="id" value="{$id}">
+</form>
+{/if}
+
+{if $user['role']==6}
+<form method="post">
+	<input type="hidden" name="id" value="{$id}">
+</form>
+
+<div class="divider1"></div>
+<div>
+	<div style="padding:4vmin;">生产订单列表</div>
+	<ul class="mui-table-view" id='goodslist'>
+		{loop $goods $index $item}
+		<li class="mui-table-view-cell">{$item['name']}—数量：{$item['num']}<br>
+		 <span>生产线：{$item['line']} </span>
+		{if $order['detailstatus']==1}	<img src="../addons/ly_product_manage/template/mobile/image/new_btn.png" onclick="popline(this)" data-id={$item["id"]}>
+		{/if}
+		<span>生产人员：{$item['produce_user']} </span>
+		{if $order['detailstatus']==1}	<img src="../addons/ly_product_manage/template/mobile/image/new_btn.png" onclick="pop(this)" data-id={$item["id"]}>
+		{/if}
+		</li>
+		{/loop}
+	</ul>
+</div>
+{/if}
+
 <div class="divider1"></div>
 
 {php include $this->template('orderinfo')}
 
-{if $user['role']==1}
+
 <div class="btnpanel">
+	{if $user['role']==1}
 	<div class="mybutton left" onclick="window.location.href='{php echo $this->createMobileUrl("index",array("action"=>"alterorder"))}'">
 		<img src="../addons/ly_product_manage/template/mobile/image/back_btn.png">停用订单</div>
-	<div class="mybutton"><img src="../addons/ly_product_manage/template/mobile/image/alert_btn.png">提醒审批</div>
-</div>
-{/if}
-{php include $this->template('footer')}
+		<div class="mybutton"><img src="../addons/ly_product_manage/template/mobile/image/alert_btn.png">提醒审批</div>
+		{/if}
+		{if $user['role']==5 && $order['detailstatus']==2}
+		<div class="mybutton middle" onclick="$('form').submit();">
+			<img src="../addons/ly_product_manage/template/mobile/image/back_btn.png">确认播种
+		</div>
+		{/if}
+		{if $user['role']==6 && $order['detailstatus']==1}
+		<div class="mybutton middle" onclick="$('form').submit();">
+			<img src="../addons/ly_product_manage/template/mobile/image/back_btn.png">分配生产人员
+		</div>
+		{/if}
+
+	</div>
+
+
+
+
+	<script type="text/javascript">
+		function pop(ele) {
+			var picker = new mui.PopPicker();
+			var data=JSON.parse('{$produceman}');
+			console.log(data)
+			picker.setData(data);
+			picker.show(function (selectItems) {
+				console.log(selectItems[0].text);
+				$(ele).prev().html("生产人员："+selectItems[0].text)
+				console.log(selectItems[0].value);
+				url="{php echo $this->createMobileUrl('fetch',array('type'=>'producer'))} ";
+				$.post(url,{produce_userid:selectItems[0].value,ogid:$(ele).data('id')},function(res) {
+					console.log(res)
+				})
+
+			})
+		} 
+		function popline(ele) {
+			var picker = new mui.PopPicker();
+			url="{php echo $this->createMobileUrl('fetch',array('type'=>'line'))} ";
+			$.get(url,function(res) {
+				var data=JSON.parse(res);
+				console.log(data)
+				picker.setData(data);
+				picker.show(function (selectItems) {
+					console.log(selectItems[0].text);
+					$(ele).prev().html("&nbsp;&nbsp;生产线："+ selectItems[0].text.substr(0,5))
+					console.log(selectItems[0].value);
+					url="{php echo $this->createMobileUrl('fetch',array('type'=>'uline'))} ";
+					$.post(url,{lineid:selectItems[0].value,ogid:$(ele).data('id')},function (res) {
+						console.log(res);
+					})
+					
+				})
+			})
+
+		}
+	</script>
+	{php include $this->template('footer')}

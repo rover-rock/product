@@ -40,6 +40,44 @@ class Ly_product_manageModuleSite extends WeModuleSite {
 			pdo_update('ly_product_manage_order',array('detailstatus'=>3),array('id'=>$_GPC['id']));
 			return 'success';
 		}
+		elseif ($type==4) {
+			//财务人员确认定金支付
+			pdo_update('ly_product_manage_order',array('pay_status'=>2,'pay_time1'=>time(),'finance_user'=>$_GPC['user']),array('id'=>$_GPC['id']));
+			return 'success';
+		}
+		elseif ($type==5) {
+			//财务经理确认定金支付
+			pdo_update('ly_product_manage_order',array('pay_status'=>3,'status'=>3,'detailstatus'=>1 ,'finance_manager'=>$_GPC['user']),array('id'=>$_GPC['id']));
+			return 'success';
+		}
+		elseif ($type==6) {
+			//财务人员确认尾款支付
+			pdo_update('ly_product_manage_order',array('pay_status'=>4,'pay_time2'=>time()),array('id'=>$_GPC['id']));
+			return 'success';
+		}
+		elseif ($type==7) {
+			//财务经理确认尾款支付
+			pdo_update('ly_product_manage_order',array('pay_status'=>5),array('id'=>$_GPC['id']));
+			return 'success';
+		}
+		if ($type=="line") {
+			//获取生产线数据
+			$lines=pdo_fetchall('select * from ims_ly_product_manage_line');
+			foreach ($lines as $key => $value) {
+			$data[$key]['text']=$value['name'].($value['status']==0?'-未使用':'-被占用');
+			$data[$key]['value']=$value['id'];
+			}
+			return json_encode($data);
+		}
+		elseif ($type=="uline") {
+			pdo_update('ly_product_manage_line',['status'=>1,'time'=>time()],['id'=>$_GPC['lineid']]);
+			pdo_update('ly_product_manage_ordergoods',['line'=>$_GPC['lineid']],['id'=>$_GPC['ogid']]);
+			return 'success';
+		}
+		if ($type=="producer") {
+			$res=pdo_update('ly_product_manage_ordergoods',['produce_user'=>$_GPC['produce_userid']],['id'=>$_GPC['ogid']]);
+			return $res;
+		}
 	}
 	public function doWebAdd() {
 		//这个操作被定义用来呈现 管理中心导航菜单
@@ -47,7 +85,8 @@ class Ly_product_manageModuleSite extends WeModuleSite {
 	public function route($isweb=true)
 	{
 		global $_GPC,$_W;
-		$_W['openid']=3;
+		load()->func('communication');
+		$_W['openid']=5;
 		if(!$isweb){
 				//移动端入口
 			$user=pdo_fetch('select * from ims_ly_product_manage_user where openid=:openid',array(':openid'=>$_W['openid']));
@@ -137,6 +176,34 @@ class Ly_product_manageModuleSite extends WeModuleSite {
 					case 2:
 						$res='定金已支付';
 						break;
+					case 3:
+						$res='定金已确认';
+						break;
+					case 4:
+						$res='尾款已支付';
+						break;
+					case 5:
+						$res='尾款已确认';
+						break;
+					default:
+						# code...
+						break;
+				}
+				break;
+			case 3:
+				switch ($order['detailstatus']) {
+					case 1:
+						$res='未开始未分配';
+						break;
+					case 2:
+						$res='未开始已分配';
+						break;
+					case 3:
+						$res='已播种';
+						break;
+					case 4:
+						$res='已移苗';
+						break;
 					default:
 						# code...
 						break;
@@ -148,62 +215,7 @@ class Ly_product_manageModuleSite extends WeModuleSite {
 		}
 		return $res;
 	}
-	public function doMobileTest()
-	{
-		extension_loaded("imap");
-		var_dump(get_extension_funcs("imap")) ; exit();
-		$mailServer="imap.qq.com"; //IMAP主机
-$mailLink="{{$mailServer}:143}INBOX" ; //imagp连接地址：不同主机地址不同
-$mailUser = '362463215@qq.com'; //邮箱用户名
-$mailPass = 'mitcmfbrksrzcbda'; //邮箱密码
-$mbox = imap_open($mailLink,$mailUser,$mailPass); //开启信箱imap_open
-$totalrows = imap_num_msg($mbox); //取得信件数
-for ($i=1;$i<$totalrows;$i++){
-  $headers = imap_fetchheader($mbox, $i); //获取信件标头
-  $headArr = matchMailHead($headers); //匹配信件标头
-  $mailBody = imap_fetchbody($mbox, $i, 1); //获取信件正文
-}
-	var_dump($mailBody);exit();
-	}
-	function setTimer($value='')
-	{
-		$time=1;
-		$url="http://".$_SERVER['HTTP_HOST'].$_SERVER['REQUEST_URI'];
-	//定时执行的任务
-		$file = fopen("../addons/ly_product_manage/test.txt","a");
-		fwrite($file, '1');
-		fclose($file);
-		sleep($time);
-	//
-		include "../addons/ly_product_manage/config.php";
-		if(!$run) die('process abort');
-		file_get_contents($url);
-	}
-	function mail()
-	{
-		$mail = new PHPMailer();  
-		$mail->isSMTP();// 使用SMTP服务  
-		$mail->SMTPDebug = 2;
-$mail->CharSet = "utf8";// 编码格式为utf8，不设置编码的话，中文会出现乱码  
-$mail->Host = "smtp.qq.com";// 发送方的SMTP服务器地址  
-$mail->SMTPAuth = true;// 是否使用身份验证  
-$mail->Username = "362463215@qq.com";// 发送方的163邮箱用户名  
-$mail->Password = "dlealxqqvtsebgch";// 发送方的邮箱密码，注意用163邮箱这里填写的是“客户端授权密码”而不是邮箱的登录密码！  
-$mail->SMTPSecure = "ssl";// 使用ssl协议方式 
-$mail->Port = 465;// 163邮箱的ssl协议方式端口号是465/994  
-$mail->From= "hao";  
-$mail->Helo= "min";  
-$mail->setFrom('362463215@qq.com', 'First Last');
-//添加要发送的邮件地址
-$mail->addAddress('rongyuzerenguojia@163.com', 'John Doe');
-$mail->IsHTML(false);  
-$mail->Subject = 'sub';// 邮件标题  
-$mail->Body ='content' ;// 邮件正文  
-if(!$mail->send()){// 发送邮件  
-	echo "Message could not be sent.";  
-  echo "Mailer Error: ".$mail->ErrorInfo;// 输出错误信息  
-}else{  
-	echo 'Message has been sent.';  
-}
-}
+	
+	
+	
 }

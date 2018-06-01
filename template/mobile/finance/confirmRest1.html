@@ -44,14 +44,15 @@
 <div class="b">{$item['category1']},{$item['category2']},{$item['name']},{$item['num']}株 </div>
 {/loop}
 <div class="divider1"></div>
-{if $user['role']==4}
 <div class="a" > 收款财务：{$order['finance_user']}</div>
 <div class="a" > 收款时间：{php echo date('Y-m-d',$order['pay_time1']) }</div>
-{/if}
-
+<div class="divider1"></div>
+<div class="a" > 订单状态：{php echo $this->getOrderStatus($id)}</div>
+{if $user['role']==3||$type==7}
 <div class="btnpanel">
 	<div class="mybutton " onclick="window.location.href='{php echo $this->createMobileUrl("index",array("action"=>"detail","op"=>"2","id"=>$id))}'">
-		<img src="../addons/ly_product_manage/template/mobile/image/confirm_btn.png">定金支付确认</div>
+		<img src="../addons/ly_product_manage/template/mobile/image/confirm_btn.png">尾款支付确认</div>
 </div>
+{/if}
 
 {php include $this->template('footer')}
