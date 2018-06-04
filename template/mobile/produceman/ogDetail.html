@@ -36,17 +36,31 @@
 <div class="text-center line1"><span>操作人员：</span>{$user['name']}</div>
 <div class="text-center line1"><span>生产订单编号：</span>{$og['id']}</div>
 <div class="text-center line1"><span>订单状态：</span>
-  {if $og['status']==1}未播种{/if}
-  {if $og['status']==2}已播种--{php echo date('Y-m-d H:m',$og['seeding_time']) } {/if}
-  {if $og['status']==3}已移苗--{php echo date('Y-m-d H:m',$og['bedout_time']) } {/if}
-  {if $og['status']==4}已挑苗--{php echo date('Y-m-d H:m',$og['choose_time']) } {/if}
+  {if $og['status']==2}已播种--{php echo date('Y-m-d H:m',$og['seeding_time']) } 
+  {elseif $og['status']==3}已移苗--{php echo date('Y-m-d H:m',$og['bedout_time']) } 
+  {elseif $og['status']==4}已挑苗--{php echo date('Y-m-d H:m',$og['choose_time']) }
+	{else}未播种
+   {/if}
 </div>
+<div style="text-align: center;" ><a href="{php echo $this->createMobileUrl('index',['action'=>'addExtraOrder','ogid'=>$og['id']])} ">申请补苗</a></div>
+{if $og['confirm_bedout']==1}
+<div class="text-center line1">已申请移苗，请等待审批！</div>
+{elseif $og['confirm_bedout']==2}
+<div class="text-center line1">审批通过，请操作并确认！</div>
 <div class="back-btn"><img src="../addons/ly_product_manage/template/mobile/image/back_btn.png">
-	{if $og['status']==1}确认播种{/if}
-  {if $og['status']==2}确认移苗 {/if}
-  {if $og['status']==3}确认挑苗 {/if}
-  {if $og['status']==4}{/if}
+	确认移苗
+	</div>
+{else}
+<div class="back-btn"><img src="../addons/ly_product_manage/template/mobile/image/back_btn.png">
+	
+  {if $og['status']==2}
+  申请移苗 
+  {elseif $og['status']==3}确认挑苗 
+  {elseif $og['status']==4}
+  {else} 确认播种
+  {/if}
 </div>
+{/if}
 <script type="text/javascript">
 	$('.back-btn').on('click',function () {
 		window.location.href='{php echo $this->createMobileUrl("index",["action"=>"confirmOg","ogid"=>$og["id"]])}';

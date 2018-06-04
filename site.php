@@ -70,13 +70,22 @@ class Ly_product_manageModuleSite extends WeModuleSite {
 			return json_encode($data);
 		}
 		elseif ($type=="uline") {
+			//更新生产线
 			pdo_update('ly_product_manage_line',['status'=>1,'time'=>time()],['id'=>$_GPC['lineid']]);
 			pdo_update('ly_product_manage_ordergoods',['line'=>$_GPC['lineid']],['id'=>$_GPC['ogid']]);
 			return 'success';
 		}
 		if ($type=="producer") {
+			//更新分配的生产员
 			$res=pdo_update('ly_product_manage_ordergoods',['produce_user'=>$_GPC['produce_userid']],['id'=>$_GPC['ogid']]);
 			return $res;
+		}
+		if ($type=="confirmOg") {
+			//审批补苗订单
+			echo "string";
+			$res=pdo_update('ly_product_manage_ordergoods',['confirm_status'=>$_GPC['status']],['id'=>$_GPC['ogid']]);
+
+			return 'success';
 		}
 	}
 	public function doWebAdd() {
@@ -86,7 +95,7 @@ class Ly_product_manageModuleSite extends WeModuleSite {
 	{
 		global $_GPC,$_W;
 		load()->func('communication');
-		$_W['openid']=5;
+		$_W['openid']=6;
 		if(!$isweb){
 				//移动端入口
 			$user=pdo_fetch('select * from ims_ly_product_manage_user where openid=:openid',array(':openid'=>$_W['openid']));

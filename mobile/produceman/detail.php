@@ -13,6 +13,24 @@ foreach ($goods as $key1 => $value1) {
 		else{
 			$goods[$key1]['line']='';
 		}
+	switch ($value1['status']) {
+		case 1:
+			$goods[$key1]['statusname']='未播种';
+			break;
+		case 2:
+			$goods[$key1]['statusname']='已播种';
+			break;
+		case 3:
+			$goods[$key1]['statusname']='已移苗';
+			break;
+		case 4:
+			$goods[$key1]['statusname']='已挑苗';
+			break;
+
+		default:
+			# code...
+			break;
+	}
 	
 }
 
@@ -21,5 +39,5 @@ $client=pdo_fetch('select * from ims_ly_product_manage_client where id=:id',arra
 $category1=pdo_fetchall('select * from ims_ly_product_manage_category1');
 
 //进度图片
-$status=1;
+$status=6;
 include $this->template('detail');

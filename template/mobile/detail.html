@@ -54,16 +54,14 @@
 {/if}
 
 {if $user['role']==5}
-<div id="b">生产人员：<span>{$order['produce_user']}</span>
-	
-</div>
-<div class="divider1"></div>
 <div>
-	<div style="padding:2vmin;">生产订单列表</div>
+	<div style="padding:2vmin 4vmin;">生产订单列表</div>
 	<ul class="mui-table-view">
 		{loop $goods $index $item}
 		<a href="{php echo $this->createMobileUrl('index',['action'=>'ogDetail','id'=>$item['id']])} ">
-			<li class="mui-table-view-cell">{$item['name']}—数量：{$item['num']} <span>&nbsp;&nbsp;生产线：{$item['line']} </span>
+			<li class="mui-table-view-cell">{$item['name']}—数量：{$item['num']} 
+				<span>&nbsp;&nbsp;生产线：{$item['line']} </span>
+				<span>&nbsp;&nbsp;{$item['statusname']} </span>
 			</li>
 		</a>
 		
@@ -85,7 +83,7 @@
 
 <div class="divider1"></div>
 <div>
-	<div style="padding:4vmin;">生产订单列表</div>
+	<div style="padding:2vmin 4vmin;">生产订单列表</div>
 	<ul class="mui-table-view" id='goodslist'>
 		{loop $goods $index $item}
 		<li class="mui-table-view-cell">{$item['name']}—数量：{$item['num']}<br>
@@ -112,11 +110,7 @@
 		<img src="../addons/ly_product_manage/template/mobile/image/back_btn.png">停用订单</div>
 		<div class="mybutton"><img src="../addons/ly_product_manage/template/mobile/image/alert_btn.png">提醒审批</div>
 		{/if}
-		{if $user['role']==5 && $order['detailstatus']==2}
-		<div class="mybutton middle" onclick="$('form').submit();">
-			<img src="../addons/ly_product_manage/template/mobile/image/back_btn.png">确认播种
-		</div>
-		{/if}
+		
 		{if $user['role']==6 && $order['detailstatus']==1}
 		<div class="mybutton middle" onclick="$('form').submit();">
 			<img src="../addons/ly_product_manage/template/mobile/image/back_btn.png">分配生产人员

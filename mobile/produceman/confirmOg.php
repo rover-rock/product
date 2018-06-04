@@ -4,17 +4,20 @@
 	switch ($og['status']) {
 		case 1:
 			$data['seeding_time']=time();
+			$data['status']=$og['status']+1;
 			break;
 		case 2:
-			$data['bedout_time']=time();
+		//申请移苗
+			$data['confirm_bedout']=1;
 			break;
 		case 3:
 			$data['choose_time']=time();
+			$data['status']=$og['status']+1;
 			break;
 		default:
 			break;
 	}
-	$data['status']=$og['status']+1;
+	
 	
 	pdo_update('ly_product_manage_ordergoods',$data,['id'=>$ogid]);
 	$url=$this->createMobileUrl('index',['action'=>'detail','id'=>$og['orderid']]);

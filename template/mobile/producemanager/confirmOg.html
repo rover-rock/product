@@ -1,0 +1,90 @@
+{php include $this->template('header')}
+<style type="text/css">
+.mui-input-row label~input{
+	float: left;
+	width: 50vmin;
+}
+.mui-icon{
+	margin-top: 2vmin;
+}
+#panel button:nth-child(1){
+	margin: 2vmin 19vmin;
+}
+#panel button:nth-child(2){
+	    margin: 2vmin;
+}
+</style>
+
+<form class="mui-input-group" method="post">
+	
+	<div class="mui-input-row">
+		<label>补苗品种:</label>
+		<label>{$name} </label>
+	</div>
+	<div class="mui-input-row">
+		<label>种植数量</label>
+		<label>{$og['num']} </label>
+	</div>
+	<div class="mui-input-row">
+		<label>预计补苗日期</label>
+		<label>{$og['makeup_time']} </label>
+	</div>
+	<div class="mui-input-row">
+		<label>分配生产线</label>
+		<input type="text" class="mui-input" placeholder="请输入" name="line">
+		<span class="mui-icon mui-icon-plus" onclick="pop_line(this)" data-id="{$ogid}"></span>
+	</div>
+	<div class="mui-input-row">
+		<label>分配生产人员</label>
+		<input type="text" class="mui-input" placeholder="请输入" name="produceman">
+		<span class="mui-icon mui-icon-plus" onclick="pop_man(this)" data-id="{$ogid}" ></span>
+	</div>
+	
+</form>
+<div id="panel">
+		<button type="button" onclick="pass(1)">通过</button><button type="button" onclick="pass(2)">拒绝</button>
+</div>
+<script type="text/javascript">
+	
+	function pop_line(ele) {
+		var picker = new mui.PopPicker();
+		var url="{php echo $this->createMobileUrl('fetch',['type'=>'line'])} ";
+		$.get(url,function (res) {
+			var data=JSON.parse(res);
+			picker.setData(data);
+			picker.show(function (selectItems) {
+			$(ele).prev().val(selectItems[0].text);
+			var url="{php echo $this->createMobileUrl('fetch',['type'=>'uline'])} "
+			$.post(url, {lineid:selectItems[0].value,ogid:$(ele).data('id')},function (res) {
+				
+			})
+			
+		})
+		})
+		
+	}
+	function pop_man(ele) {
+		var picker = new mui.PopPicker();
+		var data={$produceman};
+			picker.setData(data);
+			picker.show(function (selectItems) {
+			$(ele).prev().val(selectItems[0].text);
+			var url="{php echo $this->createMobileUrl('fetch',['type'=>'producer'])} "
+			$.post(url, {produce_userid:selectItems[0].value,ogid:$(ele).data('id')},function (res) {
+				
+			})
+			
+		})
+		
+		
+	}
+	function pass(status) {
+		var url="{php echo $this->createMobileUrl('fetch',['type'=>'confirmOg','ogid'=>$ogid])} "
+		$.post(url,{status:status},function (res) {
+			console.log(res);
+			alert('操作成功！');
+			window.location.href="{php echo $this->createMobileUrl('index')} "
+		})
+	}
+</script>
+{php include $this->template('footer')}
