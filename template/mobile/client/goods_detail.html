@@ -1,0 +1,58 @@
+{php include $this->template('header')}
+<style type="text/css">	
+	#num{
+		border: none;
+		margin-bottom: 0;
+	}
+	#bottom-panel{
+		    position: fixed;
+    bottom: 2vmin;
+    /* right: 4vmin; */
+    width: 100%;
+    padding: 2vmin;
+    box-shadow: 0px 5px 5px -5px;
+    border: 1px solid #80808024;
+	}
+	#bottom-panel button{
+		    margin-left: 70vmin;
+	}
+</style>
+<div>
+	轮播图  goods['images']
+</div>
+<div>
+	goods['description']
+</div>
+<div>
+	goods['name']  goods['sales_num']
+</div>
+<form method="post">
+    <input type="hidden" name="goodsid" value="{$goodsid} ">
+<ul class="mui-table-view">
+    <li class="mui-table-view-cell">
+        <label class="mui-navigate-right" onclick="pop_date(this)"><span>选择提货时间</span><span></span></label>
+        <input type="hidden" name="done_time">
+    </li>
+    <li class="mui-table-view-cell">
+        <a>输入数量<input type="text"  placeholder="请输入数量" name="num" id="num"></a>
+    </li>
+    
+</ul>
+
+
+<div id="bottom-panel">
+	<button class="btn btn-default" type="button" onclick="$('form').submit();">加入已选</button>
+</div>
+</form>
+<script type="text/javascript">
+	function pop_date(ele) {
+		var dtPicker = new mui.DtPicker({type:'date'}); 
+    	dtPicker.show(function (selectItems) { 
+        console.log(selectItems);//{text: "2016",value: 2016} 
+        console.log(selectItems.m);//{text: "05",value: "05"} 
+        $(ele).children().eq(1).html(selectItems.text)
+        $(ele).next().val(selectItems.text);
+    	})
+	}
+</script>
+{php include $this->template('footer')}

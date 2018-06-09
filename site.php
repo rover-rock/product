@@ -6,87 +6,42 @@
  * @url http://bbs.we7.cc/
  */
 defined('IN_IA') or exit('Access Denied');
-include "../addons/ly_product_manage/phpMailer/PHPMailer.php"; 
-include "../addons/ly_product_manage/phpMailer/SMTP.php";
+include "../addons/ly_product_manage/mobile/tempmessage.php"; 
+require_once '../addons/ly_product_manage/functions.php';
+
+
 class Ly_product_manageModuleSite extends WeModuleSite {
 
 	public function doMobileIndex() {
 		$this->route(false);
 	}
+	public function doMobileClient()
+	{
+		global $_GPC,$_W;
+		$action=$_GPC['action'];
+		$_W['openid']=10;
+		$client=pdo_fetch('select * from ims_ly_product_manage_client where openid=:openid',[':openid'=>$_W['openid']]);
+		if (!$client) {
+			pdo_insert('ly_product_manage_client',['openid'=>$_W['openid']]);
+			$client=pdo_fetch('select * from ims_ly_product_manage_client where openid=:openid',[':openid'=>$_W['openid']]);
+		}
+		if (empty($action)) {
+						$file='index';
+			}
+			else{
+				$file=$action;
+			}
+		include_once IA_ROOT .  '/addons/ly_product_manage/mobile/client/'.$file.'.php';
+		exit();
+	}
 	//ajax数据获取函数
 	public function doMobileFetch()
 	{
-		global $_W,$_GPC;
-		$type=$_GPC['type'];
-		if($type==1){
-			//获取c2类数据
-			$category2=pdo_fetchall('select * from ims_ly_product_manage_category2 where category1=:c1',array(':c1'=>$_GPC['c1']));
-			foreach ($category2 as $key => $value) {
-				$cate2[$key]['text']=$value['name'];
-				$cate2[$key]['value']=$value['id'];
-			}
-			return json_encode($cate2);
+		global $_GPC;
+		if ($_GPC['action']="setdata") {
+			return setAjaxData();
 		}
-		else if($type==2){
-			$goods=pdo_fetchall('select * from ims_ly_product_manage_goods where category2=:c2',array(':c2'=>$_GPC['c2']));
-			foreach ($goods as $key => $value) {
-				$g[$key]['text']=$value['name'];
-				$g[$key]['value']=$value['id'];
-			}
-			return json_encode($g);
-		}
-		else if($type==3){
-			//接受订单
-			pdo_update('ly_product_manage_order',array('detailstatus'=>3),array('id'=>$_GPC['id']));
-			return 'success';
-		}
-		elseif ($type==4) {
-			//财务人员确认定金支付
-			pdo_update('ly_product_manage_order',array('pay_status'=>2,'pay_time1'=>time(),'finance_user'=>$_GPC['user']),array('id'=>$_GPC['id']));
-			return 'success';
-		}
-		elseif ($type==5) {
-			//财务经理确认定金支付
-			pdo_update('ly_product_manage_order',array('pay_status'=>3,'status'=>3,'detailstatus'=>1 ,'finance_manager'=>$_GPC['user']),array('id'=>$_GPC['id']));
-			return 'success';
-		}
-		elseif ($type==6) {
-			//财务人员确认尾款支付
-			pdo_update('ly_product_manage_order',array('pay_status'=>4,'pay_time2'=>time()),array('id'=>$_GPC['id']));
-			return 'success';
-		}
-		elseif ($type==7) {
-			//财务经理确认尾款支付
-			pdo_update('ly_product_manage_order',array('pay_status'=>5),array('id'=>$_GPC['id']));
-			return 'success';
-		}
-		if ($type=="line") {
-			//获取生产线数据
-			$lines=pdo_fetchall('select * from ims_ly_product_manage_line');
-			foreach ($lines as $key => $value) {
-			$data[$key]['text']=$value['name'].($value['status']==0?'-未使用':'-被占用');
-			$data[$key]['value']=$value['id'];
-			}
-			return json_encode($data);
-		}
-		elseif ($type=="uline") {
-			//更新生产线
-			pdo_update('ly_product_manage_line',['status'=>1,'time'=>time()],['id'=>$_GPC['lineid']]);
-			pdo_update('ly_product_manage_ordergoods',['line'=>$_GPC['lineid']],['id'=>$_GPC['ogid']]);
-			return 'success';
-		}
-		if ($type=="producer") {
-			//更新分配的生产员
-			$res=pdo_update('ly_product_manage_ordergoods',['produce_user'=>$_GPC['produce_userid']],['id'=>$_GPC['ogid']]);
-			return $res;
-		}
-		if ($type=="confirmOg") {
-			//审批补苗订单
-			echo "string";
-			$res=pdo_update('ly_product_manage_ordergoods',['confirm_status'=>$_GPC['status']],['id'=>$_GPC['ogid']]);
-
-			return 'success';
-		}
+		return fetchAjaxData();
 	}
 	public function doWebAdd() {
 		//这个操作被定义用来呈现 管理中心导航菜单
@@ -95,7 +50,7 @@ class Ly_product_manageModuleSite extends WeModuleSite {
 	{
 		global $_GPC,$_W;
 		load()->func('communication');
-		$_W['openid']=6;
+		$_W['openid']=1;
 		if(!$isweb){
 				//移动端入口
 			$user=pdo_fetch('select * from ims_ly_product_manage_user where openid=:openid',array(':openid'=>$_W['openid']));
@@ -146,85 +101,18 @@ class Ly_product_manageModuleSite extends WeModuleSite {
 	{
 		include $this->template('choose');
 	}
-	function getOrderStatus($id)
+	
+	
+	public function doMobileSendmessage()
 	{
-		$order=pdo_fetch('select * from ims_ly_product_manage_order where id=:id',array(':id'=>$id));
-		$status=$order['status'];
-		$detailstatus=$order['detailstatus'];
-		switch ($status) {
-			case 1:
-				switch ($detailstatus) {
-					case 1:
-						$res='未分配';
-						break;
-					case 2:
-						$res='已分配未接受';
-						break;
-					case 3:
-						$res='已接受未下单';
-						break;
-					case 4:
-						$res='下单待审核';
-						break;
-					case 5:
-						$res='审核通过';
-						break;
-					case 6:
-						$res='审核未通过';
-						break;
-					default:
-						# code...
-						break;
-				}
-				break;
-			case 2:
-				switch ($order['pay_status']) {
-					case 1:
-						$res='签约未支付';
-						break;
-					case 2:
-						$res='定金已支付';
-						break;
-					case 3:
-						$res='定金已确认';
-						break;
-					case 4:
-						$res='尾款已支付';
-						break;
-					case 5:
-						$res='尾款已确认';
-						break;
-					default:
-						# code...
-						break;
-				}
-				break;
-			case 3:
-				switch ($order['detailstatus']) {
-					case 1:
-						$res='未开始未分配';
-						break;
-					case 2:
-						$res='未开始已分配';
-						break;
-					case 3:
-						$res='已播种';
-						break;
-					case 4:
-						$res='已移苗';
-						break;
-					default:
-						# code...
-						break;
-				}
-				break;
-			default:
-				# code...
-				break;
-		}
-		return $res;
+		global $_GPC,$_W;
+		$tplmes=new templatemessage();
+		$arr['openid']='ohKkv0rx-rLmJZ5u9_HDIKLt6Fbc';
+		$arr['mid1']="jaXxAstSFsvLvXXI5uRZAn4dgeB-YeMNNGCW_3v7Puc";
+		$arr['url']="http://www.baidu.com";
+		//$tplmes->pay_sucess($_GPC['content'],$_GPC['create_time'],$arr);
+		$tplmes->task_alert('客户邮箱更改','2018-6-6',$arr);
+		
 	}
-	
-	
 	
 }

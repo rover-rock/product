@@ -1,0 +1,300 @@
+{php include $this->template('header')}
+<style type="text/css">
+#panel1{
+	display: grid;
+	grid-template-columns: repeat(4,1fr);
+}
+#panel1 div{
+	padding: 2vmin 2vmin;
+}
+#panel1 img{
+	width: 13vmin;
+	height: 13vmin;
+	margin-left: 3vmin;
+	padding: 2vmin;
+}
+#panel1  div:nth-child(1) img{
+	background: #35acb9;
+
+}
+#panel1 div:nth-child(2) img{
+	background: pink;
+
+}
+#panel1 div:nth-child(3) img{
+	background: #5d95dc;
+
+}
+#panel1 div:nth-child(4) img{
+	background: #ff000082;
+
+}
+.panel1-text{
+	text-align: center;
+}
+.my-list-item{
+	display: grid;
+	grid-template-columns: 3fr 3fr 7fr 3fr;
+
+}
+.goods-des{
+	display: inline;
+	padding-left: 4vmin;
+}
+.goods-des p{
+	display: inline;
+}
+.goods-trash i{
+	font-size: 2em;
+	margin: 1vmin;
+}
+#tabbar-with-contact{
+	padding: 0vmin 2vmin;
+}
+.operation-panel{
+	position: fixed;
+	bottom: 14vmin;
+	width: 100%;
+}
+.operation-panel label{
+	width: 70vmin;
+	line-height: 1.8em;
+}
+.operation-panel button{
+	margin: 2vmin;
+}
+.mui-input-row label~input{
+	float: left;
+	width: 50vmin;
+}
+.mui-icon{
+	margin-top: 2vmin;
+}
+</style>
+
+
+<nav class="mui-bar mui-bar-tab">
+	<a class="mui-tab-item " href="#tabbar">
+		<span class="mui-icon mui-icon-home"></span>
+		<span class="mui-tab-label">首页</span>
+	</a>
+	<a class="mui-tab-item" href="#tabbar-with-chat">
+		<span class="mui-icon mui-icon-list"><span class="mui-badge">9</span></span>
+		<span class="mui-tab-label">分类</span>
+	</a>
+	<a class="mui-tab-item" href="#tabbar-with-contact">
+		<span class="mui-icon mui-icon-upload"></span>
+		<span class="mui-tab-label">已选种苗</span>
+	</a>
+	<a class="mui-tab-item" href="#tabbar-with-map">
+		<span class="mui-icon mui-icon-compose"></span>
+		<span class="mui-tab-label">订单</span>
+	</a>
+</nav>
+<!-- 首页 -->
+<div id="tabbar" class="mui-control-content">
+	<div class="mui-slider">
+		<div class="mui-slider-group">
+			<div class="mui-slider-item"><a href="#"><img src="../addons/ly_product_manage/template/mobile/image/1.png" /></a></div>
+			<div class="mui-slider-item"><a href="#"><img src="../addons/ly_product_manage/template/mobile/image/1.png" /></a></div>
+			<div class="mui-slider-item"><a href="#"><img src="../addons/ly_product_manage/template/mobile/image/1.png" /></a></div>
+			<div class="mui-slider-item"><a href="#"><img src="../addons/ly_product_manage/template/mobile/image/1.png" /></a></div>
+		</div>
+	</div>
+
+	<div id="panel1">
+		<div>
+			<img src="../addons/ly_product_manage/template/mobile/image/client-btn1.png" class="img-circle" />
+			<div class="panel1-text">蔬菜种苗</div>
+		</div>
+		<div>
+			<img src="../addons/ly_product_manage/template/mobile/image/client-btn2.png" class="img-circle" />
+			<div class="panel1-text">联系我们</div>
+		</div>
+		<div>
+			<img src="../addons/ly_product_manage/template/mobile/image/client-btn3.png" class="img-circle" />
+			<div class="panel1-text">集团动态</div>
+		</div>
+		<div>
+			<img src="../addons/ly_product_manage/template/mobile/image/client-btn4.png" class="img-circle" />
+			<div class="panel1-text">订单中心</div>
+		</div>
+	</div>
+</div>
+<!-- 分类 -->
+<div id="tabbar-with-chat" class="mui-control-content">
+	<div class="row">
+		<div class="col-xs-3">
+			<ul id="myTab" class="nav nav-pills">
+				{loop $category1 $index $item}
+				<li >
+					<a href="#c{$item['id']}" data-toggle="tab">
+						{$item['name']}
+					</a>
+				</li>
+				{/loop}
+			</ul>
+		</div>
+		<div class="col-xs-9">
+			<div id="myTabContent" class="tab-content">
+				{loop $category1 $index $item}
+				<div class="tab-pane  " id="c{$item['id']}">
+					<div>
+						<label>选择小类:</label>
+						<label></label>
+						<span class="mui-icon mui-icon-plus" onclick="pop_goods(this,{$item['id']})"></span>
+					</div>
+					<div>
+						<ul class="mui-table-view">
+
+						</ul>
+					</div>
+				</div>
+				
+				{/loop}
+			</div>
+		</div>
+	</div>
+	
+
+</div>
+
+<!-- 已选种苗 -->
+
+<div id="tabbar-with-contact" class="mui-control-content">
+	<div class="mui-input-row">
+		<label>业务员</label>
+		<input type="text" class="mui-input" placeholder="请输入" value="{$salername} " >
+		{if $salername==""}
+		<span class="mui-icon mui-icon-plus" onclick="pop_saler(this)"></span>
+		{/if}
+		<input type="hidden" name="salerid" value="{$client['salerid']} ">
+	</div>
+	<div class="well well-sm">*首次操作，可以选择熟悉的业务员，若不选择，由业务经理分配。</div>
+	<div class="mui-input-row">
+		<label>配送至</label>
+		<input type="text" placeholder="收货地址" name="address" >
+	</div>
+	<ul class="mui-table-view">
+		{loop $cart $index $item}
+		<li class="mui-table-view-cell mui-media  my-list-item">
+			<div class="mui-checkbox mui-left">
+				<input data-id="{$item['id']}" value="Item 1" type="checkbox" style="left: -4vmin" >
+			</div>
+			<div >
+				<img class="mui-media-object" src="../addons/ly_product_manage/template/mobile/image/product.jpg">
+
+			</div>
+			<div class="goods-des ">
+				<span> {$item['name']}</span>
+				<span class='mui-ellipsis'>数量：{$item['num']}&nbsp;&nbsp;   提苗时限：{$item['done_time']} </span>
+			</div>
+			<div class="goods-trash">
+				<i class="mui-icon mui-icon-trash"></i>
+			</div>
+
+		</li>
+		{/loop}
+	</ul>
+</div>
+
+<!-- 订单 -->
+<div id="tabbar-with-map" class="mui-control-content">
+
+</div>
+
+
+<div class="operation-panel">
+	<div class="mui-input-row mui-checkbox mui-left mui-input-group">
+		<label>全选</label>
+		<input id="checkall" type="checkbox" >
+		<button type="button" onclick="order()"> 下单</button>
+	</div>
+	
+</div>
+
+
+<script type="text/javascript">
+	$().ready(function () {
+		var index="{$tab}"
+		$('.mui-control-content').eq(index).addClass('mui-active');
+		$('.mui-tab-item').eq(index).addClass('mui-active')
+		$('#checkall').click(function () {
+			$("input[type='checkbox']").prop('checked',this.checked);
+		})
+	})
+
+
+
+	function pop_goods(ele,id) {
+		var picker = new mui.PopPicker();
+		var url="{php echo $this->createMobileUrl('fetch')} ";
+		$.post(url,{type:1,c1:id},function(res) {
+			var data = JSON.parse(res);
+			picker.setData(data);
+			picker.show(function (selectItems) {
+				console.log(selectItems[0].text);
+				$(ele).prev().html(selectItems[0].text)
+				console.log(selectItems[0].value);
+				$.post(url,{type:'goods' ,c2:selectItems[0].value},function (res) {
+					$(ele).parents('.tab-pane').find('ul').html('')
+					data=JSON.parse(res);
+					//创建商品列表
+					var str=`<li class="mui-table-view-cell">
+					<a class="mui-navigate-right"></a>
+					</li>`
+					for (var i = data.length - 1; i >= 0; i--) {
+						var li_node=$(str);
+						var item_url="{php echo $this->createMobileUrl('client',['action'=>'goods_detail'])} ";
+						item_url= item_url.trim()+'&goodsid='+id;
+						li_node.find('a').attr('href',item_url);
+						li_node.find('a').html(data[i]['name']);
+						$(ele).parents('.tab-pane').find('ul').append(li_node);
+					}
+
+
+				})
+
+			})	
+		})
+		
+	}
+	function order() {
+		var goods=[];
+		$("input[type='checkbox']").each(function () {
+			if (this.checked) {
+				console.log(this)
+				goods.push($(this).data('id'));	
+			}
+		})
+		if (goods.length==0) {
+			mui.alert('请选择商品！','提示信息');
+			return;
+		}
+		var completed="{$completed}";
+		if (completed=="") {
+			mui.alert('请首先完善个人信息！','提示','去完善',function () {
+				var url="{php echo $this->createMobileUrl('client',['action'=>'fillInfo'])} "
+				window.location.href=url;
+			})
+		}
+		console.log(JSON.stringify(goods))
+		var address=$("input[name='address']").val();
+		var salerid=$("input[name='salerid']").val();
+
+		var url="{php echo $this->createMobileUrl('fetch',['action'=>'setdata','type'=>'dealOrder'])} ";
+		$.post(url,{goods:JSON.stringify(goods),address:address,salerid:salerid});
+	}
+	function pop_saler(ele) {
+		var picker = new mui.PopPicker();
+		var data=JSON.parse('{$salers}');
+		picker.setData(data);
+		picker.show(function (selectItems) {
+			console.log(selectItems[0].text);
+			$(ele).prev().val(selectItems[0].text)
+			console.log(selectItems[0].value);
+			$(ele).next().val(selectItems[0].value)
+		})
+	}
+</script>
+{php include $this->template('footer')}
