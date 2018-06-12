@@ -9,6 +9,11 @@
 		$model[$name]=new $name;
 		return $model[$name];
 	}
+	function createOrdersn($goodsid)
+	{
+		$ordersn=time();
+		return $ordersn;
+	}
 	function getOrderStatus($id)
 	{
 		$order=pdo_fetch('select * from ims_ly_product_manage_order where id=:id',array(':id'=>$id));
@@ -91,8 +96,10 @@
 	{
 		global $_W,$_GPC;
 		$type=$_GPC['type'];
+		
 		if($type==1){
 			//获取c2类数据
+
 			$category2=pdo_fetchall('select * from ims_ly_product_manage_category2 where category1=:c1',array(':c1'=>$_GPC['c1']));
 			foreach ($category2 as $key => $value) {
 				$cate2[$key]['text']=$value['name'];
@@ -160,7 +167,7 @@
 
 			return 'success';
 		}
-		if ($type="goods") {
+		if ($type=="goods") {
 			$data=pdo_fetchall('select * from ims_ly_product_manage_goods where category2=:c2',array(':c2'=>$_GPC['c2']));
 			return json_encode($data);
 		}
@@ -172,18 +179,18 @@
 		switch ($type) {
 			case "dealOrder":
 				$goods=json_decode($_GPC['goods']) ;
-				foreach ($$goods as $key => $value) {
-					
-				}
 				$data=[
 					'userid'=>$_GPC['salerid'],
-					'address'=>$_GPC['address']
+					'address'=>$_GPC['address'],
+					'goods'=>$goods
 				];
-				m('dealOrder')->createClientOrder();
+
+				m('dealOrder')->createClientOrder($data);
+				m('dealOrder')->removeGoodsFromCart($goods);
 				break;
 			
 			default:
-				# code...
+				
 				break;
 		}
 		return "success";

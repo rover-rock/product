@@ -196,6 +196,15 @@
 		</li>
 		{/loop}
 	</ul>
+	<div class="operation-panel">
+	<div class="mui-input-row mui-checkbox mui-left mui-input-group">
+		<label>全选</label>
+		<input id="checkall" type="checkbox" >
+		<button type="button" onclick="order()"> 下单</button>
+	</div>
+	
+</div>
+
 </div>
 
 <!-- 订单 -->
@@ -204,14 +213,6 @@
 </div>
 
 
-<div class="operation-panel">
-	<div class="mui-input-row mui-checkbox mui-left mui-input-group">
-		<label>全选</label>
-		<input id="checkall" type="checkbox" >
-		<button type="button" onclick="order()"> 下单</button>
-	</div>
-	
-</div>
 
 
 <script type="text/javascript">
@@ -246,7 +247,7 @@
 					for (var i = data.length - 1; i >= 0; i--) {
 						var li_node=$(str);
 						var item_url="{php echo $this->createMobileUrl('client',['action'=>'goods_detail'])} ";
-						item_url= item_url.trim()+'&goodsid='+id;
+						item_url= item_url.trim()+'&goodsid='+data[i]['id'];
 						li_node.find('a').attr('href',item_url);
 						li_node.find('a').html(data[i]['name']);
 						$(ele).parents('.tab-pane').find('ul').append(li_node);
@@ -271,6 +272,7 @@
 			mui.alert('请选择商品！','提示信息');
 			return;
 		}
+
 		var completed="{$completed}";
 		if (completed=="") {
 			mui.alert('请首先完善个人信息！','提示','去完善',function () {
@@ -281,9 +283,24 @@
 		console.log(JSON.stringify(goods))
 		var address=$("input[name='address']").val();
 		var salerid=$("input[name='salerid']").val();
+		if (!address) {
+			mui.alert('请填写收货地址！','提示');
+			return;
+		}
+		mui.confirm('确认下订单？','确认选择',['取消','确定下单'],function (argument) {
 
-		var url="{php echo $this->createMobileUrl('fetch',['action'=>'setdata','type'=>'dealOrder'])} ";
-		$.post(url,{goods:JSON.stringify(goods),address:address,salerid:salerid});
+			if (argument.index==1) {
+				var url="{php echo $this->createMobileUrl('fetch',['action'=>'setdata','type'=>'dealOrder'])} ";
+		 		$.post(url,{goods:JSON.stringify(goods),address:address,salerid:salerid},function () {
+		 			mui.toast('下单成功');
+		 			url="{php echo $this->createMobileUrl('client')} ";
+		 			setTimeout(function () {
+		 				window.location.href=url;
+		 			},1000);
+		 		});
+			}
+		})
+		 
 	}
 	function pop_saler(ele) {
 		var picker = new mui.PopPicker();

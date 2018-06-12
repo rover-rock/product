@@ -35,9 +35,5 @@ $category1=json_encode($cate1);
 
 include $this->template('salesman/neworder');
 
-function createOrdersn($goodsid)
-{
-	$ordersn=time();
-	return $ordersn;
-}
+
 ?>

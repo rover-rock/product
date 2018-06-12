@@ -28,6 +28,8 @@
 		$salername = pdo_fetchcolumn('select name from ims_ly_product_manage_user where id=:id',[':id'=>$client['salerid']]);
 
 	}
+	//客户所有订单
+	$order=m('dealOrder')->getOrdersByClientid($client['id']);
 
 	$salers=m('user')->getSalersPop();
 	include $this->template('client/index');

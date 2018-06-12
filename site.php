@@ -38,7 +38,7 @@ class Ly_product_manageModuleSite extends WeModuleSite {
 	public function doMobileFetch()
 	{
 		global $_GPC;
-		if ($_GPC['action']="setdata") {
+		if ($_GPC['action']=="setdata") {
 			return setAjaxData();
 		}
 		return fetchAjaxData();
