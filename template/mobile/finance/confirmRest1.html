@@ -41,7 +41,13 @@
 <div class="a" > 购买人：{$order['clientid']}</div>
 <div class="b">购买明细：</div>
 {loop $goods $index $item}
-<div class="b">{$item['category1']},{$item['category2']},{$item['name']},{$item['num']}株 </div>
+<div class="b">{$item['category1']},{$item['category2']},{$item['name']},{$item['num']}株&nbsp;
+	{if $item['pay_status']!=2} 已支付尾款：{$item['pay_log']} 
+	<a href="#" onclick="payDeposit({$item['id']} )">财务操作</a> 
+	{else}<label class="label label-default">尾款已结清</label> 
+	{/if}
+	
+</div>
 {/loop}
 <div class="divider1"></div>
 <div class="a" > 收款财务：{$order['finance_user']}</div>
@@ -54,5 +60,59 @@
 		<img src="../addons/ly_product_manage/template/mobile/image/confirm_btn.png">尾款支付确认</div>
 </div>
 {/if}
-
+<div id="deposit_sheet" class="mui-popover mui-popover-bottom mui-popover-action ">
+    <!-- 可选择菜单 -->
+    <ul class="mui-table-view">
+      <li class="mui-table-view-cell">
+       <a href="#" onclick="payDepositPart()">收取部分尾款</a>
+      </li>
+      <li class="mui-table-view-cell">
+        <a href="#" onclick="payDepositAll()">结清尾款</a>
+      </li>
+    </ul>
+    <!-- 取消菜单 -->
+    <ul class="mui-table-view">
+      <li class="mui-table-view-cell">
+        <a href="#deposit_sheet"><b>取消</b></a>
+      </li>
+    </ul>
+</div>
+<script type="text/javascript">
+	function payDeposit(id) {
+		$('#deposit_sheet').data('id',id);
+		mui('#deposit_sheet').popover('toggle');
+	}
+	function payDepositPart() {
+		var id=$('#deposit_sheet').data('id');
+		mui.prompt('收取尾款金额','金额','确认尾款',function (data) {
+			if (data.index===1) {
+				if (data.value=='') {
+					return;
+				} 
+				else{
+					var url='{php echo $this->createMobileUrl('fetch',array('action'=>'setdata','type'=>'payPartDeposit'))}';
+					$.post(url,{id:id,money:data.value});
+					mui.toast('收取成功');
+					setTimeout(function () {
+						location.reload();
+					},2000);
+				}
+			}
+		})
+	}
+	function payDepositAll() {
+		var id=$('#deposit_sheet').data('id');
+		mui.confirm('确认尾款全部结清？','确认结款',function (data) {
+			if (data.index===1) {
+					var url='{php echo $this->createMobileUrl('fetch',array('action'=>'setdata','type'=>'payAllDeposit'))}';
+					$.post(url,{id:id});
+					mui.toast('收取成功');
+					setTimeout(function () {
+						location.reload();
+					},2000);
+			}
+		})
+	}
+	
+</script>
 {php include $this->template('footer')}

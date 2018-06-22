@@ -1,19 +1,7 @@
 {php include $this->template('header')}
 {php include $this->template('personinfo')}
 <style type="text/css">
-.nav-tab1{
-	display: grid;
-	grid-template-columns: repeat(2,1fr);
-	text-align: center;
-	font-size: 1.3em;
-	padding: 3vmin;
 
-}
-
-.nav-tab1 div:nth-child(2){
-	border-right: none;
-
-}
 .mybutton{
 	display: inline; 
 }
@@ -37,14 +25,14 @@
 }
 </style>
 
-<div class="nav-tab nav-tab1">
+<div class="nav-tab2">
 	<div data-flag=1 class="active">订单定金</div>
 	<div data-flag=2>订单尾款</div>
 </div>
 <div class="divider2"></div>
 <div class="tab-content">
 	<div id="tab1" >
-		<div class="nav-tab nav-tab1">
+		<div class="nav-tab2">
 			<div data-flag=1 class="active">
 				{if $user['role']==4}未确认
 				{else}未支付
@@ -64,7 +52,7 @@
 						<div >
 							<span class="item1">订单编号：</span>
 							<span class="item2">{$item['ordersn']}</span>
-							<span class="label label-default">{php echo $this->getOrderStatus($item['id'])} </span>
+							<span class="label label-default">{php echo getOrderStatus($item['id'])} </span>
 						</div>
 						<div>
 							<span class="item3">定金金额：</span>
@@ -86,7 +74,7 @@
 						<div >
 							<span class="item1">订单编号：</span>
 							<span class="item2">{$item['ordersn']}</span>
-							<span class="label label-default">{php echo $this->getOrderStatus($item['id'])}</span>
+							<span class="label label-default">{php echo getOrderStatus($item['id'])}</span>
 						</div>
 						<div>
 							<span class="item3">购买人：</span>
@@ -105,15 +93,15 @@
 		
 	</div>
 	<div id="tab2" >
-		<div class="nav-tab nav-tab1">
+		<div class="nav-tab2">
 			<div data-flag=1 class="active">
 				{if $user['role']==4}未确认
-				{else}未支付
+				{else}未结款
 				{/if}
 			</div>
 			<div data-flag=2>
 				{if $user['role']==4}已确认
-				{else}已支付
+				{else}已结款
 				{/if}
 			</div>
 		</div>
@@ -125,7 +113,7 @@
 						<div >
 							<span class="item1">订单编号：</span>
 							<span class="item2">{$item['ordersn']}</span>
-							<span class="label label-default">{php echo $this->getOrderStatus($item['id'])}</span>
+							<span class="label label-default">{php echo getOrderStatus($item['id'])}</span>
 						</div>
 						<div>
 							<span class="item3">购买人：</span>
@@ -147,7 +135,7 @@
 						<div >
 							<span class="item1">订单编号：</span>
 							<span class="item2">{$item['ordersn']}</span>
-							<span class="label label-default">{php echo $this->getOrderStatus($item['id'])}</span>
+							<span class="label label-default">{php echo getOrderStatus($item['id'])}</span>
 						</div>
 						<div>
 							<span class="item3">购买人：</span>
@@ -166,35 +154,20 @@
 		
 	</div>
 </div>
-<!-- <div class="btnpanel">
-	<div class="mybutton left" onclick="window.location.href='{php echo $this->createMobileUrl("index",array("action"=>"neworder","type"=>"3"))}'">
-		<img src="../addons/ly_product_manage/template/mobile/image/new_btn.png">新增个人订单</div>
-		<div class="mybutton" onclick="window.location.href='{php echo $this->createMobileUrl("index",array("action"=>"neworder","type"=>"1"))}'">
-			<img src="../addons/ly_product_manage/template/mobile/image/new_btn.png">新增意向订单</div>
-		</div> -->
-		<script type="text/javascript">
 
-
-			$(function () {
-				$('.tab-content').children().hide();
-				console.log($('.tab-content').children())
-				$('.tab-content').each(function () {
-					$(this).children().eq(0).show();
-				}
-				)
-
-				$('.nav-tab').children().on('click',function () {
-					$(this).parent().children().removeClass('active');
-					$(this).addClass('active');
-					var index=$(this).data('flag')-1;
-					console.log(index);
-					var showTab=$(this).parent().siblings('.tab-content').children().eq(index);
-					activate(showTab);			
-				})
-			})
-			function activate(el) {
-				el.parent().children().hide();
-				el.show();
-			}
-		</script>
+<div id="actionsheet" class="mui-popover mui-popover-bottom mui-popover-action ">
+    
+    <ul class="mui-table-view">
+      <li class="mui-table-view-cell">
+        <a href="{php echo $this->createMobileUrl('index',['action'=>'personalcenter'])} ">个人中心</a>
+      </li>
+     
+    </ul>
+    <!-- 取消菜单 -->
+    <ul class="mui-table-view">
+      <li class="mui-table-view-cell">
+        <a href="#actionsheet"><b>取消</b></a>
+      </li>
+    </ul>
+</div>
 		{php include $this->template('footer')}

@@ -12,7 +12,7 @@
 	</div>
 	<div class="mui-input-row">
 		<label>收货地址</label>
-		<input type="text" class="mui-input"  name="addr" value="{$client['addr']} ">
+		<input type="text" class="mui-input"  name="addr" value="{$order['address']} ">
 	</div>
 	<div style="    position: fixed;  bottom: 5vmin;   left: 40vmin;" onclick="acceptorder()">
 	
@@ -25,8 +25,11 @@
 	function acceptorder() {
 		url="{php echo $this->createMobileUrl('fetch',array('type'=>3,'id'=>$id))} ";
 		$.get(url,function (res) {
-			console.log(res);
-			window.location.href="{php echo $this->createMobileUrl('index')} ";
+			mui.alert('接受订单成功！','提示');
+			setTimeout(function () {
+				window.location.href="{php echo $this->createMobileUrl('index')} ";
+			},2000);
+			
 		})
 	}
 </script>

@@ -70,6 +70,21 @@
 .mui-icon{
 	margin-top: 2vmin;
 }
+.mui-slider-item img{
+	height:40vmin;
+}
+#panel2 img{
+	        height: 40vmin;
+    width: 94vmin;
+    margin: 3vmin;
+}
+#panel3{
+	margin-left: 1vmin;
+}
+#panel3 img{
+	width: 30vmin;
+	    margin: 1vmin;
+}
 </style>
 
 
@@ -95,10 +110,9 @@
 <div id="tabbar" class="mui-control-content">
 	<div class="mui-slider">
 		<div class="mui-slider-group">
-			<div class="mui-slider-item"><a href="#"><img src="../addons/ly_product_manage/template/mobile/image/1.png" /></a></div>
-			<div class="mui-slider-item"><a href="#"><img src="../addons/ly_product_manage/template/mobile/image/1.png" /></a></div>
-			<div class="mui-slider-item"><a href="#"><img src="../addons/ly_product_manage/template/mobile/image/1.png" /></a></div>
-			<div class="mui-slider-item"><a href="#"><img src="../addons/ly_product_manage/template/mobile/image/1.png" /></a></div>
+			<div class="mui-slider-item"><a href="#"><img src="../addons/ly_product_manage/template/mobile/image/product1.jpg" /></a></div>
+			<div class="mui-slider-item"><a href="#"><img src="../addons/ly_product_manage/template/mobile/image/product2.jpg" /></a></div>
+			<div class="mui-slider-item"><a href="#"><img src="../addons/ly_product_manage/template/mobile/image/product.jpg" /></a></div>
 		</div>
 	</div>
 
@@ -108,7 +122,9 @@
 			<div class="panel1-text">蔬菜种苗</div>
 		</div>
 		<div>
+			<a href="{php echo $this->createMobileUrl('client',['action'=>'contactUs'])} ">
 			<img src="../addons/ly_product_manage/template/mobile/image/client-btn2.png" class="img-circle" />
+			</a>
 			<div class="panel1-text">联系我们</div>
 		</div>
 		<div>
@@ -119,6 +135,14 @@
 			<img src="../addons/ly_product_manage/template/mobile/image/client-btn4.png" class="img-circle" />
 			<div class="panel1-text">订单中心</div>
 		</div>
+	</div>
+	<div id="panel2">
+		<img src="../addons/ly_product_manage/template/mobile/image/product.jpg">
+	</div>
+	<div id="panel3">
+		<img src="../addons/ly_product_manage/template/mobile/image/product.jpg">
+		<img src="../addons/ly_product_manage/template/mobile/image/product.jpg">
+		<img src="../addons/ly_product_manage/template/mobile/image/product.jpg">
 	</div>
 </div>
 <!-- 分类 -->
@@ -209,7 +233,9 @@
 
 <!-- 订单 -->
 <div id="tabbar-with-map" class="mui-control-content">
-
+	<header class="mui-bar mui-bar-nav mui-bar-transparent" data-top='0' data-offset='150' data-duration='16' data-scrollby=".mui-scroll-wrapper">
+	<h1 class="mui-title">全部订单</h1>
+	</header>
 </div>
 
 

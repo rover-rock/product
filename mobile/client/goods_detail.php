@@ -13,7 +13,7 @@
 		exit();
 	}
 
-
+	
 	$goods=m('goods')->getGoodsById($goodsid);
 	
 	include $this->template('client/goods_detail');

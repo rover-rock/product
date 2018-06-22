@@ -1,4 +1,32 @@
+<script type="text/javascript">
 
+
+			$(function () {
+				navEle('.nav-tab5');
+				navEle('.nav-tab3');
+				navEle('.nav-tab2');
+			})
+			function navEle (selector) {
+				$('.tab-content').children().hide();
+				$('.tab-content').each(function () {
+					$(this).children().eq(0).show();
+				}
+				)
+
+				$(selector).children().on('click',function () {
+					$(this).parent().children().removeClass('active');
+					$(this).addClass('active');
+					var index=$(this).data('flag')-1;
+					console.log(index);
+					var showTab=$(this).parent().siblings('.tab-content').children().eq(index);
+					activate(showTab);			
+				})
+			}
+			function activate(el) {
+				el.parent().children().hide();
+				el.show();
+			}
+</script>
 
 </body>
 </html>

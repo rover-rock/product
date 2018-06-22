@@ -50,13 +50,13 @@ class Ly_product_manageModuleSite extends WeModuleSite {
 	{
 		global $_GPC,$_W;
 		load()->func('communication');
-		$_W['openid']=1;
+		$_W['openid']=4;
 		if(!$isweb){
 				//移动端入口
 			$user=pdo_fetch('select * from ims_ly_product_manage_user where openid=:openid',array(':openid'=>$_W['openid']));
 
 			if(!$user){
-
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    
 				include_once IA_ROOT .  '/addons/ly_product_manage/mobile/register.php';
 				exit();
 			}
@@ -73,7 +73,7 @@ class Ly_product_manageModuleSite extends WeModuleSite {
 					}
 					else{
 						$file=$action;
-						if ($action=='personalcenter') {
+						if ($action=='personalcenter'||$action=='newclient') {
 							include IA_ROOT .  '/addons/ly_product_manage/mobile/'.$file.'.php';
 							exit();
 						}
@@ -111,8 +111,12 @@ class Ly_product_manageModuleSite extends WeModuleSite {
 		$arr['mid1']="jaXxAstSFsvLvXXI5uRZAn4dgeB-YeMNNGCW_3v7Puc";
 		$arr['url']="http://www.baidu.com";
 		//$tplmes->pay_sucess($_GPC['content'],$_GPC['create_time'],$arr);
-		$tplmes->task_alert('客户邮箱更改','2018-6-6',$arr);
+		$tplmes->task_alert($_GPC['content'],$_GPC['create_time'],$_GPC['trace_time'],$arr);
 		
+	}
+	public function doMobileAnta()
+	{
+		return "this is the echo from alien planet";
 	}
 	
 }

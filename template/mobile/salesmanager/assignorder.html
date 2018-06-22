@@ -42,7 +42,13 @@
 <div class="b">
 	<div>意向购买人：{$client['name']}</div>
 	<div>联系方式：{$client['phone']}</div>
-	<div>收货地址：{$client['addr']}</div>
+	<div>收货地址：{$order['address']}</div>
+	<div>品种：</div>
+	<ul class="mui-table-view">
+	{loop $ogs $index $og}
+    <li class="mui-table-view-cell">{$og['goodsname']}&nbsp;&nbsp;&nbsp;&nbsp;数量：{$og['num']} </li>
+    {/loop}
+	</ul>
 </div>
 <form method="post">
 	<input type="hidden" name="salesman">

@@ -1,19 +1,7 @@
-{php include $this->template('header')}
+  	{php include $this->template('header')}
 {php include $this->template('personinfo')}
 <style type="text/css">
-.nav-tab1{
-	display: grid;
-	grid-template-columns: repeat(2,1fr);
-	text-align: center;
-	font-size: 1.3em;
-	padding: 3vmin;
 
-}
-
-.nav-tab1 div:nth-child(2){
-	border-right: none;
-
-}
 .mybutton{
 	display: inline; 
 }
@@ -34,13 +22,16 @@
 
 </style>
 
-<div class="nav-tab">
-	<div data-flag=1 class="active">新订单</div>
-	<div data-flag=2>已审批</div>
-	<div data-flag=3>订单中心</div>
+
+<div class="nav-tab5">
+	<div data-flag=1 class="active">新增</div>
+	<div data-flag=2>审批</div>
+	<div data-flag=3>签约</div>
+	<div data-flag=4>生产</div>
+	<div data-flag=5>完成</div>
 </div>
 <div class="tab-content">
-	<div id="tab1" >
+	<div>
 		
 				{loop $newOrder $list $item}
 				<div class="list-item">
@@ -49,10 +40,7 @@
 							<span class="item1">订单编号：</span>
 							<span class="item2">{$item['ordersn']}</span>
 							<span class="label label-default">
-								{if $item['detailstatus']==2}未接受
-								{elseif $item['detailstatus']==3}接受未下单
-								{else}提交待审批
-								{/if}
+								{php echo getOrderStatus($item['id'])}
 							</span>
 						</div>
 						<div>
@@ -70,7 +58,7 @@
 			
 		
 	</div>
-	<div id="tab2" >
+	<div>
 				{loop $verifiedOrder $list $item}
 				<div class="list-item">
 					<div>
@@ -96,15 +84,15 @@
 				</div>
 				{/loop}	
 	</div>
-	<div id="tab3">
+	<div >
 		
-				{loop $allOrder $list $item}
+				{loop $contractOrder $list $item}
 				<div class="list-item">
 					<div>
 						<div >
 							<span class="item1">订单编号：</span>
 							<span class="item2">{$item['ordersn']}</span>
-							<span class="label label-default">未审批</span>
+							<span class="label label-default">{php echo getOrderStatus($item['id'])}</span>
 						</div>
 						<div>
 							<span class="item3">购买人：</span>
@@ -120,34 +108,68 @@
 				{/loop}
 		
 	</div>
+	<div>
+			{loop $producingOrder $list $item}
+				<div class="list-item">
+					<div>
+						<div >
+							<span class="item1">订单编号：</span>
+							<span class="item2">{$item['ordersn']}</span>
+							<span class="label label-default">{php echo getOrderStatus($item['id'])}</span>
+						</div>
+						<div>
+							<span class="item3">购买人：</span>
+							<span class="item4">{$item['clientid']}</span>
+							<span class="item3">下单时间：</span>
+							<span class="item4">{php echo date("Y-m-d",$item['create_time'])}</span>
+						</div>
+					</div>
+					<div>
+						<img src="../addons/ly_product_manage/template/mobile/image/more_btn.png" style="width: 100%;height: 80%;" onclick="window.location.href='{php echo $this->createMobileUrl('index',array('action'=>'detail','id'=>$item['id']))}'">
+					</div>
+				</div>
+				{/loop}
+	</div>
+	<div>
+		{loop $finishedOrder $list $item}
+				<div class="list-item">
+					<div>
+						<div >
+							<span class="item1">订单编号：</span>
+							<span class="item2">{$item['ordersn']}</span>
+							<span class="label label-default">{php echo getOrderStatus($item['id'])}</span>
+						</div>
+						<div>
+							<span class="item3">购买人：</span>
+							<span class="item4">{$item['clientid']}</span>
+							<span class="item3">下单时间：</span>
+							<span class="item4">{php echo date("Y-m-d",$item['create_time'])}</span>
+						</div>
+					</div>
+					<div>
+						<img src="../addons/ly_product_manage/template/mobile/image/more_btn.png" style="width: 100%;height: 80%;" onclick="window.location.href='{php echo $this->createMobileUrl('index',array('action'=>'detail','id'=>$item['id']))}'">
+					</div>
+				</div>
+			{/loop}
+	</div>
 </div>
-<div class="btnpanel">
-	<div class="mybutton left" onclick="window.location.href='{php echo $this->createMobileUrl("index",array("action"=>"neworder","type"=>"3"))}'">
-		<img src="../addons/ly_product_manage/template/mobile/image/new_btn.png">新增个人订单</div>
-		</div>
-		<script type="text/javascript">
 
+<div id="actionsheet" class="mui-popover mui-popover-bottom mui-popover-action ">
+    
+    <ul class="mui-table-view">
+      <li class="mui-table-view-cell">
+        <a href="{php echo $this->createMobileUrl('index',['action'=>'personalcenter'])} ">个人中心</a>
+      </li>
+      <li class="mui-table-view-cell">
+        <a href='{php echo $this->createMobileUrl("index",array("action"=>"neworder","type"=>"2"))}'>新增个人订单</a>
+      </li>
+    </ul>
+    <!-- 取消菜单 -->
+    <ul class="mui-table-view">
+      <li class="mui-table-view-cell">
+        <a href="#actionsheet"><b>取消</b></a>
+      </li>
+    </ul>
+</div>
 
-			$(function () {
-				$('.tab-content').children().hide();
-				console.log($('.tab-content').children())
-				$('.tab-content').each(function () {
-					$(this).children().eq(0).show();
-				}
-				)
-
-				$('.nav-tab').children().on('click',function () {
-					$(this).parent().children().removeClass('active');
-					$(this).addClass('active');
-					var index=$(this).data('flag')-1;
-					console.log(index);
-					var showTab=$(this).parent().siblings('.tab-content').children().eq(index);
-					activate(showTab);			
-				})
-			})
-			function activate(el) {
-				el.parent().children().hide();
-				el.show();
-			}
-		</script>
 		{php include $this->template('footer')}

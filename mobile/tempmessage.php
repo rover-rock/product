@@ -20,12 +20,12 @@
 		
 		//支付成功	
 			
-		function task_alert($content,$create_time,$arr){						
+		function task_alert($content,$create_time,$trace_time,$arr){						
 			$_tdata = array(			
 				'first'=>array('value'=>"待办事项",'color'=>'#d35400'),			
 				'keyword1'=>array('value'=>$content,'color'=>'#16a085'),			
 				'keyword2'=>array('value'=>$create_time,'color'=>'#16a085'),			
-				'remark'=>array('value'=>"办完这件事，就给你放假。",'color'=>'#95a5a6')		
+				'remark'=>array('value'=>"设定时间为:".$trace_time,'color'=>'#95a5a6')		
 			);			
 			logging_run("_tdata==>".json_encode($_tdata));			
 			return $this->sendTemplate_common($arr['openid'],$arr['mid1'],$arr['url'],$_tdata);		

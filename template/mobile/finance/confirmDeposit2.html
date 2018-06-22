@@ -18,7 +18,7 @@
 	.line1 span{
 		color: gray;
 	}
-	div{
+	.text-center {
 		color: white;
 	}
 	.back-btn{
@@ -44,14 +44,25 @@
 <div class="text-center" style="margin-top: 30vh;">请在确认财务收到定金后点击确认按钮，</div>
 <div class="text-center">确认将发送给生产部门安排生产。</div>
 {/if}
-<div class="back-btn"><img src="../addons/ly_product_manage/template/mobile/image/confirm_btn.png">确认定金支付</div>
+
+<div class="back-btn" style="color: white"><img src="../addons/ly_product_manage/template/mobile/image/confirm_btn.png">确认定金支付</div>
+
 <script type="text/javascript">
 	$('.back-btn').on('click',function () {
 
 		url="{php echo $this->createMobileUrl('fetch',array('type'=>$type,'id'=>$id,'user'=>$user['id']))}"
-		$.get(url);
-		alert('确认成功！');
-		window.location.href='{php echo $this->createMobileUrl("index")}';
+		mui.confirm('确认定金支付？','确认定金',function (data) {
+			if (data.index==1) {
+				$.get(url);
+				mui.toast('确认成功！');
+				setTimeout(function () {
+					window.location.href='{php echo $this->createMobileUrl("index")}';
+				},2000);
+			}
+		})
+		
+		
+		
 	})
 </script>
 {php include $this->template('footer')}

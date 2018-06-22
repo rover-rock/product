@@ -16,15 +16,36 @@
 	#bottom-panel button{
 		    margin-left: 70vmin;
 	}
+    .mui-slider-item img{
+            
+            height: 60vmin;
+    }
+    #description{
+            font-weight: bold;
+    margin: 4vmin;
+    }
+    #goodsname{
+            font-size: 1.2em;
+    color: red;
+    margin-left: 4vmin;
+    margin-right: 50vmin;
+    }
 </style>
 <div>
-	轮播图  goods['images']
+	<div class="mui-slider">
+  <div class="mui-slider-group">
+    <div class="mui-slider-item"><a href="#"><img src="../addons/ly_product_manage/template/mobile/image/product1.jpg" /></a></div>
+    <div class="mui-slider-item"><a href="#"><img src="../addons/ly_product_manage/template/mobile/image/product2.jpg" /></a></div>
+   
+  </div>
+</div>
+</div>
+<div id="description">
+	{$goods['description']}
 </div>
 <div>
-	goods['description']
-</div>
-<div>
-	goods['name']  goods['sales_num']
+    <span id="goodsname">{$goods['name']}</span><span>销量：233</span>
+	  
 </div>
 <form method="post">
     <input type="hidden" name="goodsid" value="{$goodsid} ">

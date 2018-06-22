@@ -16,6 +16,13 @@
 #goodslist{
 	padding: 10vmin;
 }
+#newclient{
+	margin: 2vmin 15vmin;
+}
+#newclient span{
+	color: gray;
+	margin-right: 20vmin;
+}
 </style>
 <div id="goodslist">
 	已选品种：
@@ -46,7 +53,7 @@
 	</div>
 	<div class="mui-input-row">
 		<label>提苗日期</label>
-		<input type="text" class="mui-input" placeholder="请输入" name="time">
+		<input type="text" class="mui-input" placeholder="请输入" id="time">
 		<span class="mui-icon mui-icon-plus" onclick="pop_date(this)"></span>
 	</div>
 	<div id="panel">
@@ -54,16 +61,29 @@
 	</div>
 	<div class="mui-input-row">
 		<label>购买人</label>
-		<input type="text" class="mui-input" placeholder="请输入" name="name" value="{$client['name']} ">
+		<input type="text" class="mui-input" placeholder="请选择"  >
+		<span class="mui-icon mui-icon-plus" onclick="pop_client(this)"></span>
+		<input type="hidden" name="clientid">
 	</div>
+		<div id="newclient"><span>不在列表中？</span> 
+			<a  href="{php echo $this->createMobileUrl('index',array('action'=>'newclient'))}">新增客户</a> 
+		</div>
+	
 	<div class="mui-input-row">
-		<label>联系方式</label>
-		<input type="text" class="mui-input" placeholder="请输入" id="phone" value="{$client['phone']} ">
+		<label>收货地址</label>
+		<input type="text" class="mui-input" placeholder="请输入" name="address"  >
 	</div>
-	<div class="mui-input-row">
-		<label>收获地址</label>
-		<input type="text" class="mui-input" placeholder="请输入" id="addr" value="{$client['addr']} ">
+
+	{if $order['type']==1}
+	<div style="padding: 2vmin 4vmin;">
+		客户意向需求：
+		<ul class="mui-table-view">
+			{loop $ogs $index $og}
+    	<li class="mui-table-view-cell">{$og['goodsname']}&nbsp;数量：{$og['num']} </li>
+    		{/loop}
+		</ul>
 	</div>
+	{/if}
 	<div style="    position: fixed;  bottom: 5vmin;   left: 30vmin;" onclick="$('form').submit();">
 
 		<img src="../addons/ly_product_manage/template/mobile/image/new_btn.png" style="width: 7vmin;margin-top: -2vmin">
@@ -123,6 +143,10 @@
 		var num_node=$(str2);
 		num_node.val($('#num').val());
 		$('form').append(num_node);
+		var str5='<input type="hidden" name="done_time[]" >';
+		var time_node=$(str5);
+		time_node.val($('#time').val());
+		$('form').append(time_node);
 		var str3=`<li class="mui-table-view-cell">	
 		</li>`;
 		var str4='<span class="mui-badge mui-badge-primary">11</span>';
@@ -148,5 +172,24 @@
 		$('form').children('input').remove();
 		$('div input').val('');
 	}
+	//选择客户
+	function pop_client(ele) {
+		var picker = new mui.PopPicker();
+		if ({$client}===null) 
+		{	
+			mui.toast("所属客户为空！");
+			return;
+		}
+		var data=JSON.parse('{$client}');
+		console.log(data)
+		picker.setData(data);
+		picker.show(function (selectItems) {
+			console.log(selectItems[0].text);
+			$(ele).prev().val(selectItems[0].text)
+			console.log(selectItems[0].value);
+			$(ele).next().val(selectItems[0].value);
+		})
+	}
+
 </script>
 {php include $this->template('footer')}

@@ -7,6 +7,11 @@
 		<div class="role">角色：{if $user['role']==1}销售员{/if}{if $user['role']==2}销售经理{/if}{if $user['role']==4}财务经理{/if}{if $user['role']==3}财务人员{/if}</div>
 	</div>
 	<div>
-		<img src="../addons/ly_product_manage/template/mobile/image/tool_btn.png" class="personalcenter-icon" onclick="window.location.href='{php echo $this->createMobileUrl('index',array('action'=>'personalcenter'))}'">
+		<img src="../addons/ly_product_manage/template/mobile/image/tool_btn.png" class="personalcenter-icon" onclick="actionsheetOperation();">
 	</div>
+	<script type="text/javascript">
+		function actionsheetOperation() {
+			mui('#actionsheet').popover('toggle');
+		}
+	</script>
 </div>

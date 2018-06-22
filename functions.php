@@ -188,10 +188,31 @@
 				m('dealOrder')->createClientOrder($data);
 				m('dealOrder')->removeGoodsFromCart($goods);
 				break;
-			
+			case 'stopOrder':
+				pdo_update('ly_product_manage_order',['status'=>-1],['id'=>$_GPC['id']]);
+				break;
+			case 'sendMessage':
+				sendMessage(); 
+				break;
+			case 'confirmContract':
+				pdo_update('ly_product_manage_order',array('status'=>2,'pay_status'=>1,'contact_time'=>time()),array('id'=>$_GPC['id']));
+				break;
+			case 'payPartDeposit':
+				$deposit=pdo_fetchcolumn('select pay_log from ims_ly_product_manage_ordergoods where id=:id',[':id'=>$_GPC['id']]);
+				pdo_update('ly_product_manage_ordergoods',['pay_log'=>$deposit+intval($_GPC['money'])],['id'=>$_GPC['id']]);
+				break;
+			case 'payAllDeposit':
+				pdo_update('ly_product_manage_ordergoods',['pay_status'=>2],['id'=>$_GPC['id']]);
+				$orderid=pdo_fetchcolumn('select orderid from ims_ly_product_manage_ordergoods where id=:id',[':id'=>$_GPC['id']]);
+				pdo_update('ly_product_manage_order',['pay_status'=>4],['id'=>$orderid]);
+				break;
 			default:
 				
 				break;
 		}
 		return "success";
+	}
+	function sendMessage()
+	{
+		//TODO:发送模板消息
 	}

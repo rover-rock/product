@@ -33,4 +33,30 @@
 			$data=pdo_fetchall('select * from ims_ly_product_manage_cart where clientid=:id',[':id'=>$clientid]);
 			return $data;
 		}
+		function getCategory1Pop()
+		{
+			$category1=pdo_fetchall('select * from ims_ly_product_manage_category1');
+
+			foreach ($category1 as $key => $value) {
+			$cate1[$key]['value']=$value['id'];
+			$cate1[$key]['text']=$value['name'];
+			}
+			$category1=json_encode($cate1);
+			return $category1;
+		}
+		function getClientPop($salerid)
+		{
+			$client=pdo_fetchall("select * from ims_ly_product_manage_client where salerid=:id",[':id'=>$salerid]);
+
+			foreach ($client as $key => $value) {
+			$cate1[$key]['value']=$value['id'];
+			$cate1[$key]['text']=$value['name'];
+			}
+			$client=json_encode($cate1);
+			return $client;
+		}
+		function addClient($data)
+		{
+			pdo_insert('ly_product_manage_client',$data);
+		}
 	}
